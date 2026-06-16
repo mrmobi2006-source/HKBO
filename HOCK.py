@@ -1,5 +1,4 @@
 #!/usr/bin/env python3.9
-CallbackContext = ContextTypes.DEFAULT_TYPE
 import logging
 import os
 import json
@@ -28,6 +27,8 @@ from telegram.ext import (
     filters,
     ContextTypes,      # بديل CallbackContext في الإصدار الجديد
 ) # For simple hashing as a "cipher" example
+
+CallbackContext = ContextTypes.DEFAULT_TYPE
 import codecs # For rot13
 
 # تسجيل الدخول
