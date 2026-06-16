@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.9
-import loort os
+import logging
+import os
 import json
 import requests
 import shutil
