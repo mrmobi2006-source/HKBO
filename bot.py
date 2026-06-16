@@ -33,10 +33,10 @@ from telegram.ext import (
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-MAIN_BOT_TOKEN = os.getenv("MAIN_BOT_TOKEN", "8518807079:AAG_E6FvAmduaBSbgZm1Xx69iMXFUfeFLnc")
+MAIN_BOT_TOKEN = os.getenv("MAIN_BOT_TOKEN", "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q")
 
-MAIN_CHANNELS = ["@RLH5500", "@RLH550"]
-FACTORY_MAIN_SUBSCRIPTION_CHANNEL = "@RLH55"
+MAIN_CHANNELS = ["@xtt10x", "@xtt10x"]
+FACTORY_MAIN_SUBSCRIPTION_CHANNEL = "@xtt10x"
 FACTORY_MAIN_SUBSCRIPTION_ENABLED = True
 
 DATABASE_DIR = "database"
