@@ -1,4 +1,5 @@
 #!/usr/bin/env python3.9
+CallbackContext = ContextTypes.DEFAULT_TYPE
 import logging
 import os
 import json
