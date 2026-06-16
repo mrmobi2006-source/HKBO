@@ -18,15 +18,14 @@ from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
-from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 from telegram.ext import (
-    ApplicationBuilder,
+    Application,       # بديل Updater في الإصدار الجديد
     CommandHandler,
     CallbackQueryHandler,
     MessageHandler,
     filters,
-    ContextTypes,
+    ContextTypes,      # بديل CallbackContext في الإصدار الجديد
 ) # For simple hashing as a "cipher" example
 import codecs # For rot13
 
