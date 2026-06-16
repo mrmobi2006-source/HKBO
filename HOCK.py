@@ -391,7 +391,7 @@ def stop_all_bots_main_bot(update: Update, context: CallbackContext):
     else:
         send_message(context.bot, query.message.chat.id, "⚠️ لا توجد بوتات قيد التشغيل لإيقافها أو حدث خطأ.")
 
-def start_all_bots_main_bot(update: , context: CallbackContext):
+def start_all_bots_main_bot(update: Update, context: CallbackContext):
     query = update.callback_query
     query.answer("جاري إعادة تشغيل جميع البوتات... 🔄", show_alert=True)
     user_id = query.from_user.id
