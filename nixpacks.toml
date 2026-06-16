@@ -1,2 +1,5 @@
 [phases.setup]
 nixPkgs = ["python39"]
+
+[start]
+cmd = "python bot.py"
