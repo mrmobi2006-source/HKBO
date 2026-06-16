@@ -18,6 +18,7 @@ from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
+from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 from telegram.ext import (
     ApplicationBuilder,
