@@ -221,7 +221,7 @@ def get_main_bot_admin_keyboard():
         [InlineKeyboardButton(sub_status_text, callback_data=sub_status_callback)] # زر إضافة/إزالة الاشتراك الإجباري
     ])
 
-def start_main_bot(update: Update, context: CallbackContext):
+def start_main_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     
     # Check if user is a factory admin
