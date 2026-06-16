@@ -1,2 +1,2 @@
 [deploy]
-startCommand = "python HOCK.py"
+startCommand = "python bot.py"
