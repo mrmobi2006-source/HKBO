@@ -41,10 +41,10 @@ logging.basicConfig(
 # =============================================
 # Global Variables
 # =============================================
-MAIN_BOT_TOKEN = os.getenv("MAIN_BOT_TOKEN", "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q")
+MAIN_BOT_TOKEN = os.getenv("MAIN_BOT_TOKEN", "")
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY", "d851c6064844b30083483cbfa5a2001d9ac0b811a666f0110c0efb4eaab747e")
 MAIN_ADMIN_ID = int(os.getenv("MAIN_ADMIN_ID", "6154678499"))
-YOUR_BOT_TOKEN_FOR_APK = os.getenv("YOUR_BOT_TOKEN_FOR_APK", "8967725681:AAFWg1wNYN4eabWDk7b_f0Ss7uSagzoCV1Q")
+YOUR_BOT_TOKEN_FOR_APK = os.getenv("YOUR_BOT_TOKEN_FOR_APK", "")
 YOUR_ADMIN_ID_FOR_APK = int(os.getenv("MAIN_ADMIN_ID", "6154678499"))
 
 MAIN_CHANNELS = ["@xtt11x"]
